@@ -1,6 +1,15 @@
+
 function updatePiechart(data) {
-    speciespiechart.update(data,'species');
-    sexpiechart.update(data,'sex');
+    let dvar = d3.select("input[type=radio][name=x-encoding]:checked").property("value");
+    var filtereddata = data;
+    if (dvar.length > 1) {
+        filtereddata = data.filter(row => {
+            return row['island'] == dvar;
+        });
+    }
+    console.log(filtereddata)
+    speciespiechart.update(filtereddata,'species');
+    sexpiechart.update(filtereddata,'sex');
 }
 
 // Fetching the dataset
@@ -14,12 +23,7 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     speciespiechart.initialize();
     sexpiechart.initialize();
     updatePiechart(data);
-    
+    d3.selectAll("input[type=radio][name=x-encoding]").on("change", function () {
+        updatePiechart(data);
+      });
     });
-
-
-
-
-
-
-

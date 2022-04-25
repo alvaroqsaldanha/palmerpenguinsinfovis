@@ -41,30 +41,37 @@ class piechart {
         var arcGenerator = d3.arc()
         .innerRadius(0)
         .outerRadius(this.radius)
-      
-        this.container
-            .selectAll('pieces')
-            .data(data_ready)
+
+        this.u = this.container.selectAll("path")
+                .data(data_ready)
+        
+        this.u
             .enter()
             .append('path')
+            .merge(this.u)
             .attr('d', d3.arc()
-            .innerRadius(0)
-            .outerRadius(this.radius)
+              .innerRadius(0)
+              .outerRadius(this.radius)
             )
             .attr('fill', function(d){ return(color(d.data[0])) })
-            .attr("stroke", "black")
+            .attr("stroke", "white")
             .style("stroke-width", "2px")
-            .style("opacity", 0.7)
+            .style("opacity", 1)
+        
 
-        this.container
-            .selectAll('pieces')
+        /*this.u
             .data(data_ready)
             .enter()
             .append('text')
             .text(function(d){ return d.data[0] + ": " + d.data[1]})
             .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
             .style("text-anchor", "middle")
-            .style("font-size", 12)
+            .style("font-size", 12)*/
+
+
+        this.u
+        .exit()
+        .remove()
 
     }
 
