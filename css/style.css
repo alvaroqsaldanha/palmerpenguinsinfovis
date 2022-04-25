@@ -1,20 +1,23 @@
 body {
-    background-color: #d1d1d1;
+    background-color: #ffffff;
 }
 
 h1 {
    text-align: center;
-   margin-top: 25px;
+   margin-top: 15px;
    font-size: 4em;
    font-family: 'Roboto', sans-serif;
+   border-bottom: 3px solid #424242;
+   
 }
+
 
 a {
     text-decoration: none;
-    color: rgb(255,255,255);
+    color: #363636;
 }
 
 a:hover {
-    color: salmon;
+    color: #E27D5F;
     cursor: pointer;
 }
