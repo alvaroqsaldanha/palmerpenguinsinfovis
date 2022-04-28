@@ -11,6 +11,13 @@ function updatePiechart(data) {
     sexpiechart.update(filtereddata,'sex');
 }
 
+function updateScatterplot() {
+    let xVar = d3.select("input[type=radio][name=xs-encoding]:checked").property("value");
+    let yVar = d3.select("input[type=radio][name=y-encoding]:checked").property("value");
+
+    correlationscatterplot.update(xVar, yVar);
+}
+
 // Fetching the dataset
 var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguinsinfovis/main/data/penguins_prep.csv")
     .then( data => {
@@ -24,4 +31,10 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     d3.selectAll("input[type=radio][name=x-encoding]").on("change", function () {
         updatePiechart(data);
       });
+
+    correlationscatterplot = new Scatterplot("#scatterplot",data);
+    correlationscatterplot.initialize();
+    updateScatterplot();
+    d3.selectAll("input[type=radio][name=xs-encoding]").on("change", updateScatterplot);
+    d3.selectAll("input[type=radio][name=y-encoding]").on("change", updateScatterplot);
     });
