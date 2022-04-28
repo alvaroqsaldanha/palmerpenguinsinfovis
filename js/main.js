@@ -7,7 +7,6 @@ function updatePiechart(data) {
             return row['island'] == dvar;
         });
     }
-    console.log(filtereddata)
     speciespiechart.update(filtereddata,'species');
     sexpiechart.update(filtereddata,'sex');
 }
@@ -15,7 +14,6 @@ function updatePiechart(data) {
 // Fetching the dataset
 var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguinsinfovis/main/data/penguins_prep.csv")
     .then( data => {
-    console.log(data[0])
     
     //  Initialization of components
     speciespiechart = new piechart("#speciespiechart")

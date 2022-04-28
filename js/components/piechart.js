@@ -56,7 +56,7 @@ class piechart {
             .attr('fill', function(d){ return(color(d.data[0])) })
             .attr("stroke", "white")
             .style("stroke-width", "2px")
-            .style("opacity", 1)
+            .style("opacity", 1);
         
 
         /*this.u
@@ -66,9 +66,9 @@ class piechart {
             .text(function(d){ return d.data[0] + ": " + d.data[1]})
             .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
             .style("text-anchor", "middle")
-            .style("font-size", 12)*/
-
-
+            .style("font-size", 12) */
+        
+    
         this.u
         .exit()
         .remove()
