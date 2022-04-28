@@ -26,9 +26,7 @@ class piechart {
             counts[c] = data.filter(d => d[dvar] === c).length;
         })
 
-        var colorschemes = {'species':d3.scaleOrdinal()
-        .domain(Object.keys(counts))
-        .range(["#FF6A00","#057276","#C75ECB"]) , 'sex': d3.scaleOrdinal()
+        var colorschemes = {'species': colorspecies , 'sex': d3.scaleOrdinal()
         .domain(Object.keys(counts))
         .range(["#3477eb","#ff4a89","lightgrey"])};
 

@@ -1,3 +1,7 @@
+colorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
+colorspecies = d3.scaleOrdinal()
+.domain(Object.keys(colorschemes))
+.range(Object.values(colorschemes));
 
 function updatePiechart(data) {
     let dvar = d3.select("input[type=radio][name=x-encoding]:checked").property("value");
@@ -11,10 +15,13 @@ function updatePiechart(data) {
     sexpiechart.update(filtereddata,'sex');
 }
 
+function updateHistograms(brushedData, data) {
+    specieshistogram.update(brushedData && brushedData.length > 0 ? brushedData : data, "species");
+}
+
 function updateScatterplot() {
     let xVar = d3.select("input[type=radio][name=xs-encoding]:checked").property("value");
     let yVar = d3.select("input[type=radio][name=y-encoding]:checked").property("value");
-
     correlationscatterplot.update(xVar, yVar);
 }
 
@@ -37,4 +44,15 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     updateScatterplot();
     d3.selectAll("input[type=radio][name=xs-encoding]").on("change", updateScatterplot);
     d3.selectAll("input[type=radio][name=y-encoding]").on("change", updateScatterplot);
+
+    brushedData = null;
+    specieshistogram = new Histogram("#specieshistogram");
+    specieshistogram.initialize();
+
+    correlationscatterplot.on("brush",  (brushedItems) => { 
+        brushedData = brushedItems;
+        updateHistograms(brushedData,data);
+    })    
+
+    updateHistograms(brushedData,data);
     });

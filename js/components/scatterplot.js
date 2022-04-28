@@ -1,6 +1,6 @@
 class Scatterplot {
     margin = {
-        top: 50, right: 100, bottom: 40, left: 40
+        top: 50, right: 100, bottom: 40, left: 50
     }
 
     constructor(svg, data, width = 300, height = 300) {
@@ -30,9 +30,16 @@ class Scatterplot {
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+
+        this.brush = d3.brush()
+        .extent([[0, 0], [this.width, this.height]])
+        .on("start brush", (event) => { 
+            this.brushCircles(event);
+        })
     }
 
     update(xVar, yVar) {
+        this.container.call(this.brush);
         let data = this.data;
         this.xVar = xVar;
         this.yVar = yVar;
@@ -40,9 +47,6 @@ class Scatterplot {
         this.xScale.domain(d3.extent(this.data, d => d[xVar])).range([0, this.width]);
         this.yScale.domain(d3.extent(this.data, d => d[yVar])).range([this.height, 0]);
         const categories = [...new Set(data.map(d => d['species']))];
-
-        var colorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
-
 
         /*var filtereddata = {};
         categories.forEach(c => { 
@@ -78,26 +82,26 @@ class Scatterplot {
         this.xAxisLabel
         .attr('transform', `translate(0, ${innerHeight})`);
 
-        var colorspecies = d3.scaleOrdinal()
-        .domain(Object.keys(colorschemes))
-        .range(Object.values(colorschemes));
+        const labels = document.getElementsByClassName("axis-label");
+        if (labels.length > 0) {
+            for (let i = 0; i < labels.length; i++)
+                labels[i].textContent = " ";
+        }
 
-        var xlabel = this.xAxisLabel.append('text')
+        this.xAxisLabel.append('text')
         .attr('class', 'axis-label')
         .attr('x', this.width / 2)
         .attr('y', this.height / 2 + 20)
         .attr('font-size',12)
-        .text("");
-
-        xlabel
         .text(xVar);
 
         this.yAxisLabel.append('text')
         .attr('class', 'axis-label')
-        .attr('x', -innerHeight / 2)
-        .attr('y', -60)
+        .attr('x', -200)
+        .attr('y', 10)
         .attr('transform', `rotate(-90)`)
         .style('text-anchor', 'middle')
+        .attr('font-size',12)
         .text(yVar);
 
         var size = 20
@@ -105,7 +109,7 @@ class Scatterplot {
           .data(Object.keys(categories))
           .enter()
           .append("rect")
-            .attr("x", this.width + 50)
+            .attr("x", this.width + 55)
             .attr("y", i => 100 + i*(size+5)) 
             .attr("width", size)
             .attr("height", size)
@@ -115,15 +119,34 @@ class Scatterplot {
           .data(Object.keys(categories))
           .enter()
           .append("text")
-            .attr("x", this.width + 50 + size*1.2)
+            .attr("x", this.width + 55 + size*1.2)
             .attr("y", i => 100 + i*(size+5) + (size/2)) 
             .style("fill", "black")
             .text(d => categories[d])
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle")
 
-        this.xAxisLabel.exit().remove();
+    }
 
+    isBrushed(d, selection) {
+        let [[x0, y0], [x1, y1]] = selection; 
+
+        let x = this.xScale(d[this.xVar]);
+        let y= this.yScale(d[this.yVar]);
+        return x0 <= x && x <= x1 && y0 <= y && y <= y1
+    }
+
+    brushCircles(event) {
+        let selection = event.selection;
+
+        this.circles.classed("brushed", d => this.isBrushed(d, selection));
+
+        if (this.handlers.brush)
+            this.handlers.brush(this.data.filter(d => this.isBrushed(d, selection)));
+    }
+
+    on(eventType, handler) {
+        this.handlers[eventType] = handler;
     }
 
 
