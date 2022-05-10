@@ -48,13 +48,6 @@ class Scatterplot {
         this.yScale.domain(d3.extent(this.data, d => d[yVar])).range([this.height, 0]);
         const categories = [...new Set(data.map(d => d['species']))];
 
-        /*var filtereddata = {};
-        categories.forEach(c => { 
-            filtereddata[c] = data.filter(row => {
-                return row['species'] == c;
-            });
-        });*/
-
         this.circles = this.container.selectAll("circle")
             .data(data)
             .join("circle");
@@ -63,7 +56,7 @@ class Scatterplot {
             .transition()
             .attr("cx", d => this.xScale(d[xVar]))
             .attr("cy", d => this.yScale(d[yVar]))
-            .attr("fill", d => colorschemes[d['species']])
+            .attr("fill", d => colorschemes['species'](d['species']))
             .attr("r", 3)
 
         this.xAxis
@@ -113,7 +106,7 @@ class Scatterplot {
             .attr("y", i => 100 + i*(size+5)) 
             .attr("width", size)
             .attr("height", size)
-            .style("fill", d => colorspecies(d));
+            .style("fill", d => colorschemes['species'](d));
         
         this.legend.selectAll("legendlabels")
           .data(Object.keys(categories))

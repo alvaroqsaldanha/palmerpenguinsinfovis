@@ -1,10 +1,17 @@
-colorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
-colorspecies = d3.scaleOrdinal()
-.domain(Object.keys(colorschemes))
-.range(Object.values(colorschemes));
+//Defining the colors to be used for each species and island on the visualizations  
 
-function updatePiechart(data) {
-    let dvar = d3.select("input[type=radio][name=x-encoding]:checked").property("value");
+speciescolorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
+islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#B0B8B4FF",'Biscoe':"#184A45FF"};
+colorspecies = d3.scaleOrdinal()
+.domain(Object.keys(speciescolorschemes))
+.range(Object.values(speciescolorschemes));
+colorislands = d3.scaleOrdinal()
+.domain(Object.keys(islandcolorschemes))
+.range(Object.values(islandcolorschemes));
+colorschemes = {'species': colorspecies, 'island': colorislands};
+
+function updatePiechart(data,ivar) {
+    dvar = ivar;
     var filtereddata = data;
     if (dvar.length > 1) {
         filtereddata = data.filter(row => {
@@ -17,6 +24,7 @@ function updatePiechart(data) {
 
 function updateHistograms(brushedData, data) {
     specieshistogram.update(brushedData && brushedData.length > 0 ? brushedData : data, "species");
+    islandhistogram.update(brushedData && brushedData.length > 0 ? brushedData : data, "island");
 }
 
 function updateScatterplot() {
@@ -30,14 +38,24 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     .then( data => {
     
     //  Initialization of components
-    speciespiechart = new piechart("#speciespiechart")
-    sexpiechart = new piechart("#sexpiechart")
+    speciespiechart = new Piechart("#speciespiechart")
+    sexpiechart = new Piechart("#sexpiechart")
     speciespiechart.initialize();
     sexpiechart.initialize();
-    updatePiechart(data);
-    d3.selectAll("input[type=radio][name=x-encoding]").on("change", function () {
-        updatePiechart(data);
-      });
+    updatePiechart(data,'');
+    
+    d3.select("#Whole").on("click",() => {
+        updatePiechart(data, '');
+    });
+    d3.select("#Dream").on("click",() => {
+        updatePiechart(data, 'Dream');
+    });
+    d3.select("#Torgersen").on("click",() => {
+        updatePiechart(data, 'Torgersen');
+    });
+    d3.select("#Biscoe").on("click",() => {
+        updatePiechart(data, 'Biscoe');
+    });
 
     correlationscatterplot = new Scatterplot("#scatterplot",data);
     correlationscatterplot.initialize();
@@ -48,6 +66,11 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     brushedData = null;
     specieshistogram = new Histogram("#specieshistogram");
     specieshistogram.initialize();
+    parallelcoordinates = new Parallelcoordinates("#parallelcoordinates");
+    parallelcoordinates.initialize();  
+    parallelcoordinates.update(data);
+    islandhistogram = new Histogram("#islandhistogram");
+    islandhistogram.initialize();
 
     correlationscatterplot.on("brush",  (brushedItems) => { 
         brushedData = brushedItems;

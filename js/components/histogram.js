@@ -46,7 +46,7 @@ class Histogram {
             .attr("y", d=>this.yScale(counts[d]))
             .attr("width", this.xScale.bandwidth())
             .attr("height", d=>this.height-this.yScale(counts[d]))
-            .attr("fill", d => colorschemes[d])
+            .attr("fill", d => colorschemes[xVar](d))
 
 
         this.xAxis

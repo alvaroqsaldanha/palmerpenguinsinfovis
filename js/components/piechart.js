@@ -1,4 +1,4 @@
-class piechart {
+class Piechart {
 
     constructor(svg, width = 400, height = 400) {
         this.svg = svg;
