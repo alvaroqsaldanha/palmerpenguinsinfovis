@@ -36,6 +36,8 @@ class Scatterplot {
         .on("start brush", (event) => { 
             this.brushCircles(event);
         })
+
+        this.init = false;
     }
 
     update(xVar, yVar) {
@@ -96,28 +98,31 @@ class Scatterplot {
         .attr('font-size',12)
         .text(yVar);
 
-        var size = 20
-        this.legend.selectAll("legendrects")
-          .data(Object.keys(categories))
-          .enter()
-          .append("rect")
-            .attr("x", this.width + 55)
-            .attr("y", i => 100 + i*(size+5)) 
-            .attr("width", size)
-            .attr("height", size)
-            .style("fill", d => colorschemes['species'](d));
-        
-        this.legend.selectAll("legendlabels")
-          .data(Object.keys(categories))
-          .enter()
-          .append("text")
-            .attr("x", this.width + 55 + size*1.2)
-            .attr("y", i => 100 + i*(size+5) + (size/2)) 
-            .style("fill", "black")
-            .text(d => categories[d])
-            .attr("text-anchor", "left")
-            .style("alignment-baseline", "middle")
+        if (!this.init) {
+            var size = 20
+            this.legend.selectAll("legendrects")
+            .data(Object.keys(categories))
+            .enter()
+            .append("rect")
+                .attr("x", this.width + 55)
+                .attr("y", i => 100 + i*(size+5)) 
+                .attr("width", size)
+                .attr("height", size)
+                .style("fill", d => colorschemes['species'](d));
+            
+            this.legend.selectAll("legendlabels")
+            .data(Object.keys(categories))
+            .enter()
+            .append("text")
+                .attr("x", this.width + 55 + size*1.2)
+                .attr("y", i => 100 + i*(size+5) + (size/2)) 
+                .style("fill", "black")
+                .text(d => categories[d])
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
 
+            this.init = true;
+        }
     }
 
     isBrushed(d, selection) {

@@ -1,7 +1,7 @@
 //Defining the colors to be used for each species and island on the visualizations  
 
 speciescolorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
-islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#B0B8B4FF",'Biscoe':"#184A45FF"};
+islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#faea37",'Biscoe':"#184A45FF"};
 colorspecies = d3.scaleOrdinal()
 .domain(Object.keys(speciescolorschemes))
 .range(Object.values(speciescolorschemes));
@@ -12,11 +12,13 @@ colorschemes = {'species': colorspecies, 'island': colorislands};
 
 function updatePiechart(data,dvar) {
     var filtereddata = data;
-    d3.selectAll(".figs").style('background-color','#47a2d6');
     d3.select("h2").text(dvar);
+    d3.select(".overviewbt").attr("style","background-color: ##47a2d6");
+    d3.selectAll(".islandselect").attr("style","background-color: ##47a2d6");
     if (dvar != "Archipelago Overview") {
         dvar = dvar.split(" ")[0];
-        d3.select("#".concat(dvar)).style('background-color','yellow')
+        d3.select(".overviewbt").attr("style","background-color:" + colorschemes['island'](dvar));
+        d3.selectAll(".islandselect").attr("style","background-color:" + colorschemes['island'](dvar));
         filtereddata = data.filter(row => {
             return row['island'] == dvar;
         });

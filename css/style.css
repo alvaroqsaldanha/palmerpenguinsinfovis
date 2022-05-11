@@ -58,8 +58,13 @@ figcaption {
     color: #ffffff;
 }
 
+.figs:hover {
+    border-style: solid;
+    border-radius: 50%;
+}
+
 .dreamhover:hover {
-    background-color: #B0B8B4FF;
+    background-color: #ffea00;
 }
 
 .torgersenhover:hover {
@@ -68,10 +73,4 @@ figcaption {
 
 .biscoehover:hover {
     background-color: #184A45FF;
-}
-
-.test {
-    width: 100%;
-    height: 100%;
-    z-index: 0;
 }
