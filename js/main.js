@@ -10,10 +10,13 @@ colorislands = d3.scaleOrdinal()
 .range(Object.values(islandcolorschemes));
 colorschemes = {'species': colorspecies, 'island': colorislands};
 
-function updatePiechart(data,ivar) {
-    dvar = ivar;
+function updatePiechart(data,dvar) {
     var filtereddata = data;
-    if (dvar.length > 1) {
+    d3.selectAll(".figs").style('background-color','#47a2d6');
+    d3.select("h2").text(dvar);
+    if (dvar != "Archipelago Overview") {
+        dvar = dvar.split(" ")[0];
+        d3.select("#".concat(dvar)).style('background-color','yellow')
         filtereddata = data.filter(row => {
             return row['island'] == dvar;
         });
@@ -38,23 +41,23 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     .then( data => {
     
     //  Initialization of components
-    speciespiechart = new Piechart("#speciespiechart")
-    sexpiechart = new Piechart("#sexpiechart")
+    speciespiechart = new Piechart("#speciespiechart", "Species Distribution")
+    sexpiechart = new Piechart("#sexpiechart", "Gender Distribution")
     speciespiechart.initialize();
     sexpiechart.initialize();
-    updatePiechart(data,'');
+    updatePiechart(data,'Archipelago Overview');
     
     d3.select("#Whole").on("click",() => {
-        updatePiechart(data, '');
+        updatePiechart(data, 'Archipelago Overview');
     });
     d3.select("#Dream").on("click",() => {
-        updatePiechart(data, 'Dream');
+        updatePiechart(data, 'Dream Island');
     });
     d3.select("#Torgersen").on("click",() => {
-        updatePiechart(data, 'Torgersen');
+        updatePiechart(data, 'Torgersen Island');
     });
     d3.select("#Biscoe").on("click",() => {
-        updatePiechart(data, 'Biscoe');
+        updatePiechart(data, 'Biscoe Island');
     });
 
     correlationscatterplot = new Scatterplot("#scatterplot",data);

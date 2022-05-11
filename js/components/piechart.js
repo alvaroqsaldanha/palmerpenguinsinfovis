@@ -1,21 +1,31 @@
 class Piechart {
 
-    constructor(svg, width = 400, height = 400) {
+    constructor(svg, title, width = 400, height = 400) {
         this.svg = svg;
         this.width = width;
         this.height = height;
+        this.title = title;
     }
 
     initialize() {
         this.svg = d3.select(this.svg);
         this.container = this.svg.append("g");
         this.radius = this.width/3;
+        this.legend = this.svg.append("g");
 
         this.svg
         .attr("width", this.width)
         .attr("height", this.height);
 
+        this.svg
+        .append("text")
+        .attr("x", this.width/3)
+        .attr("y", 45) 
+        .style("fill", "black")
+        .text(this.title);
+
         this.container.attr("transform", `translate(${this.width / 2}, ${this.height / 2})`);
+        this.init = false;
     }
 
     update(data,dvar) {
@@ -33,12 +43,8 @@ class Piechart {
         var color = colorschemes[dvar];
 
         var pie = d3.pie()
-        .value(function(d) {return d[1]; })
+        .value(function(d) {return d[1];})
         var data_ready = pie(Object.entries(counts))
-
-        var arcGenerator = d3.arc()
-        .innerRadius(0)
-        .outerRadius(this.radius)
 
         this.u = this.container.selectAll("path")
                 .data(data_ready)
@@ -55,17 +61,35 @@ class Piechart {
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 1);
-        
 
-        /*this.u
-            .data(data_ready)
-            .enter()
-            .append('text')
-            .text(function(d){ return d.data[0] + ": " + d.data[1]})
-            .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
-            .style("text-anchor", "middle")
-            .style("font-size", 12) */
-        
+        if (!this.init) {
+
+            var size = 20
+            this.legend.selectAll("legendrects")
+                .data(Object.keys(categories))
+                .enter()
+                .append("rect")
+                .attr("x", this.width - this.width/4)
+                .attr("y", i => 300 + i*(size+5)) 
+                .attr("width", size)
+                .attr("height", size)
+                .style("fill", d => colorschemes[dvar](d));
+            
+            this.legend.selectAll("legendlabels")
+                .data(Object.keys(categories))
+                .enter()
+                .append("text")
+                .attr('class','pielabel')
+                .attr("x", this.width - 100 + size*1.2)
+                .attr("y", i => 300 + i*(size+5) + (size/2)) 
+                .style("fill", "black")
+                .text(d => categories[d])
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+
+            this.init = true;
+            
+        }
     
         this.u
         .exit()

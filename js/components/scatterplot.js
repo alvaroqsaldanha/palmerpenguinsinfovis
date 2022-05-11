@@ -69,7 +69,6 @@ class Scatterplot {
             .transition()
             .call(d3.axisLeft(this.yScale));
 
-        const innerWidth = this.width - this.margin.left - this.margin.right;
         const innerHeight = this.height - this.margin.top - this.margin.bottom;
 
         this.xAxisLabel
