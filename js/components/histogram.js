@@ -3,10 +3,11 @@ class Histogram {
         top: 50, right: 10, bottom: 40, left: 40
     }
 
-    constructor(svg, width = 300, height = 300) {
+    constructor(svg, padding, width = 300, height = 300) {
         this.svg = svg;
         this.width = width;
         this.height = height;
+        this.padding = padding;
     }
 
     initialize() {
@@ -36,7 +37,7 @@ class Histogram {
             counts[c] = data.filter(d => d[xVar] === c).length;
         })
 
-        this.xScale.domain(categories).range([0, this.width]).padding(0.3);
+        this.xScale.domain(categories).range([0, this.width]).padding(this.padding);
         this.yScale.domain([0, d3.max(Object.values(counts))]).range([this.height, 0]);
 
         this.container.selectAll("rect")

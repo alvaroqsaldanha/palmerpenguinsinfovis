@@ -38,6 +38,13 @@ function updateScatterplot() {
     correlationscatterplot.update(xVar, yVar);
 }
 
+function updateQuantitativeHistograms(data) {
+    quantitativehistogram1.update(data,['Adelie','Gentoo','Chinstrap']);
+    quantitativehistogram2.update(data,['Adelie','Gentoo','Chinstrap']);
+    quantitativehistogram3.update(data,['Adelie','Gentoo','Chinstrap']);
+    quantitativehistogram4.update(data,['Adelie','Gentoo','Chinstrap']);
+}
+
 // Fetching the dataset
 var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguinsinfovis/main/data/penguins_prep.csv")
     .then( data => {
@@ -69,12 +76,12 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     d3.selectAll("input[type=radio][name=y-encoding]").on("change", updateScatterplot);
 
     brushedData = null;
-    specieshistogram = new Histogram("#specieshistogram");
+    specieshistogram = new Histogram("#specieshistogram",0.3);
     specieshistogram.initialize();
     parallelcoordinates = new Parallelcoordinates("#parallelcoordinates");
     parallelcoordinates.initialize();  
     parallelcoordinates.update(data);
-    islandhistogram = new Histogram("#islandhistogram");
+    islandhistogram = new Histogram("#islandhistogram",0.3);
     islandhistogram.initialize();
 
     correlationscatterplot.on("brush",  (brushedItems) => { 
@@ -83,4 +90,14 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     })    
 
     updateHistograms(brushedData,data);
+
+    quantitativehistogram1 = new QuantitativeHistogram("#quantitativehistogram1","flipper_length_mm");
+    quantitativehistogram1.initialize();
+    quantitativehistogram2 = new QuantitativeHistogram("#quantitativehistogram2","flipper_length_mm");
+    quantitativehistogram2.initialize();
+    quantitativehistogram3 = new QuantitativeHistogram("#quantitativehistogram3","flipper_length_mm");
+    quantitativehistogram3.initialize();
+    quantitativehistogram4 = new QuantitativeHistogram("#quantitativehistogram4","flipper_length_mm");
+    quantitativehistogram4.initialize();
+    updateQuantitativeHistograms(data);
     });
