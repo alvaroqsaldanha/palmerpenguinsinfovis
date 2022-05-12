@@ -93,11 +93,19 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
 
     quantitativehistogram1 = new QuantitativeHistogram("#quantitativehistogram1","flipper_length_mm");
     quantitativehistogram1.initialize();
-    quantitativehistogram2 = new QuantitativeHistogram("#quantitativehistogram2","flipper_length_mm");
+    quantitativehistogram2 = new QuantitativeHistogram("#quantitativehistogram2","bill_length_mm");
     quantitativehistogram2.initialize();
-    quantitativehistogram3 = new QuantitativeHistogram("#quantitativehistogram3","flipper_length_mm");
+    quantitativehistogram3 = new QuantitativeHistogram("#quantitativehistogram3","bill_depth_mm");
     quantitativehistogram3.initialize();
-    quantitativehistogram4 = new QuantitativeHistogram("#quantitativehistogram4","flipper_length_mm");
+    quantitativehistogram4 = new QuantitativeHistogram("#quantitativehistogram4","body_mass_g");
     quantitativehistogram4.initialize();
     updateQuantitativeHistograms(data);
+
+    var legend = d3.select("#quantitativelegend");
+    legend.append("circle").attr("cx",90).attr("cy",30).attr("r", 6).style("fill", colorschemes['species']('Adelie'))
+    legend.append("circle").attr("cx",90).attr("cy",60).attr("r", 6).style("fill", colorschemes['species']('Gentoo'))
+    legend.append("circle").attr("cx",90).attr("cy",90).attr("r", 6).style("fill", colorschemes['species']('Chinstrap'))
+    legend.append("text").attr("x", 100).attr("y", 30).text("Adelie").style("font-size", "15px").attr("alignment-baseline","middle")
+    legend.append("text").attr("x", 100).attr("y", 60).text("Gentoo").style("font-size", "15px").attr("alignment-baseline","middle")
+    legend.append("text").attr("x", 100).attr("y", 90).text("Chinstrap").style("font-size", "15px").attr("alignment-baseline","middle")
     });

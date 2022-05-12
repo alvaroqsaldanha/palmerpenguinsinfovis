@@ -17,6 +17,8 @@ class QuantitativeHistogram {
         this.xAxis = this.svg.append("g");
         this.yAxis = this.svg.append("g");
         this.legend = this.svg.append("g");
+        this.xAxisLabel = this.svg.append("g");
+        this.yAxisLabel = this.svg.append("g");
 
         this.svg
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -37,38 +39,56 @@ class QuantitativeHistogram {
         var histogram = d3.histogram()
         .value(d => d[xVar]) 
         .domain(x.domain())  
-        .thresholds(x.ticks(30)); 
-  
-        var bins1 = histogram(data.filter( function(d){return d.species === "Gentoo"}));
-        var bins2 = histogram(data.filter( function(d){return d.species === "Adelie"}));
+        .thresholds(x.ticks(30));
+
+        var bins = {}
+        
+        catVars.forEach(element => {
+            bins[element] = histogram(data.filter( function(d){return d.species === element}));
+        });
 
         var height = this.height;
 
+        var maxstuff = []
+        catVars.forEach(element => {
+            maxstuff.push(d3.max(bins[element], d => d.length))
+        })
+        max = d3.max(maxstuff);
+
         var y = d3.scaleLinear().range([height, 0]);
-        y.domain([0, d3.max(bins1, function(d) { return d.length; })]);   
+        y.domain([0, max]);   
         this.container.append("g").call(d3.axisLeft(y));
 
-        this.container.selectAll("rect")
-        .data(bins1)
-        .enter()
-        .append("rect")
-        .attr("x", 1)
-        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-        .attr("width", function(d) { return x(d.x1) - x(d.x0) - 1; })
-        .attr("height", function(d) { return height - y(d.length); })
-        .style("fill", "#69b3a2")
-        .style("opacity", 0.6)
+        var count = 0
 
-        this.container.selectAll("rect2")
-            .data(bins2)
+        catVars.forEach(element => {
+            this.container.selectAll("rect" + count)
+            .data(bins[element])
             .enter()
             .append("rect")
-                .attr("x", 1)
-                .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-                .attr("width", function(d) { return x(d.x1) - x(d.x0) - 1  ; })
-                .attr("height", function(d) { return height - y(d.length); })
-                .style("fill", "#404080")
-                .style("opacity", 0.6)
+            .attr("x", 1)
+            .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+            .attr("width", function(d) { return x(d.x1) - x(d.x0) - 1; })
+            .attr("height", function(d) { return height - y(d.length); })
+            .style("fill", colorschemes['species'](element))
+            .style("opacity", 0.6);
+        });
+
+        this.xAxisLabel.append('text')
+        .attr('class', 'axis-label')
+        .attr('x', this.width / 2)
+        .attr('y', this.height + 80)
+        .attr('font-size',12)
+        .text(xVar);
+
+        this.yAxisLabel.append('text')
+        .attr('class', 'axis-label')
+        .attr('x', -200)
+        .attr('y', 10)
+        .attr('transform', `rotate(-90)`)
+        .style('text-anchor', 'middle')
+        .attr('font-size',12)
+        .text("Frequency");
         
     }
 
