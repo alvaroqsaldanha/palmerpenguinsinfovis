@@ -1,14 +1,20 @@
-//Defining the colors to be used for each species and island on the visualizations  
+// Defining the colors to be used for each species, island and quantitative attribute on the visualizations.  
 
 speciescolorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
 islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#faea37",'Biscoe':"#184A45FF"};
+sexcolorschemes = {'male':"#3477eb",'female':"#ff4a89",'other':"lightgrey"};
 colorspecies = d3.scaleOrdinal()
 .domain(Object.keys(speciescolorschemes))
 .range(Object.values(speciescolorschemes));
 colorislands = d3.scaleOrdinal()
 .domain(Object.keys(islandcolorschemes))
 .range(Object.values(islandcolorschemes));
-colorschemes = {'species': colorspecies, 'island': colorislands};
+colorsex = d3.scaleOrdinal()
+.domain(Object.keys(sexcolorschemes))
+.range(Object.values(sexcolorschemes));
+colorschemes = {'species': colorspecies, 'island': colorislands, 'sex': colorsex};
+
+// Functions to update the visualizations.
 
 function updatePiechart(data,dvar) {
     var filtereddata = data;
@@ -25,8 +31,14 @@ function updatePiechart(data,dvar) {
     }
     speciespiechart.update(filtereddata,'species');
     sexpiechart.update(filtereddata,'sex');
-}
+} 
 
+
+function updateParallelCoordinates(brushedData, data) {
+    let cVar = d3.select("input[type=radio][name=pc-encoding]:checked").property("value");
+    parallelcoordinates.update(brushedData && brushedData.length > 0 ? brushedData : data, cVar);
+}
+    
 function updateHistograms(brushedData, data) {
     specieshistogram.update(brushedData && brushedData.length > 0 ? brushedData : data, "species");
     islandhistogram.update(brushedData && brushedData.length > 0 ? brushedData : data, "island");
@@ -44,6 +56,8 @@ function updateQuantitativeHistograms(data) {
     quantitativehistogram3.update(data,['Adelie','Gentoo','Chinstrap']);
     quantitativehistogram4.update(data,['Adelie','Gentoo','Chinstrap']);
 }
+
+// Initialization.
 
 // Fetching the dataset
 var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguinsinfovis/main/data/penguins_prep.csv")
@@ -78,18 +92,22 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     brushedData = null;
     specieshistogram = new Histogram("#specieshistogram",0.3);
     specieshistogram.initialize();
-    parallelcoordinates = new Parallelcoordinates("#parallelcoordinates");
+    parallelcoordinates = new Parallelcoordinates("#parallelcoordinates",data,['flipper_length_mm','bill_length_mm','bill_depth_mm','body_mass_g']);
     parallelcoordinates.initialize();  
-    parallelcoordinates.update(data);
     islandhistogram = new Histogram("#islandhistogram",0.3);
     islandhistogram.initialize();
 
     correlationscatterplot.on("brush",  (brushedItems) => { 
         brushedData = brushedItems;
         updateHistograms(brushedData,data);
+        updateParallelCoordinates(brushedData,data);
     })    
 
     updateHistograms(brushedData,data);
+    updateParallelCoordinates(brushedData,data);
+    d3.selectAll("input[type=radio][name=pc-encoding]").on("change", () => {
+        updateParallelCoordinates(brushedData,data);
+    });
 
     quantitativehistogram1 = new QuantitativeHistogram("#quantitativehistogram1","flipper_length_mm");
     quantitativehistogram1.initialize();

@@ -74,3 +74,22 @@ figcaption {
 .biscoehover:hover {
     background-color: #184A45FF;
 }
+
+/* Histogram Zoom Styling */
+
+.test_Adelie:hover {
+    cursor: pointer;
+}
+
+.test_Gentoo:hover {
+    cursor: pointer;
+}
+
+.test_Chinstrap:hover {
+    cursor: pointer;
+}
+
+.pcselector {
+    transform: translateY(-40px);
+    font-size: 12px;
+}

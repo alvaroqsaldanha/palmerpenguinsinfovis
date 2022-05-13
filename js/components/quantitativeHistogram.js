@@ -14,9 +14,6 @@ class QuantitativeHistogram {
     initialize() {
         this.svg = d3.select(this.svg);
         this.container = this.svg.append("g");
-        this.xAxis = this.svg.append("g");
-        this.yAxis = this.svg.append("g");
-        this.legend = this.svg.append("g");
         this.xAxisLabel = this.svg.append("g");
         this.yAxisLabel = this.svg.append("g");
 
@@ -25,6 +22,11 @@ class QuantitativeHistogram {
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+    }
+
+    zoomIn(ev,hist) {
+        console.log(ev.path[0].className.baseVal)
+        hist.update({},['Gentoo']);
     }
 
     update(data, catVars) {
@@ -66,12 +68,19 @@ class QuantitativeHistogram {
             .data(bins[element])
             .enter()
             .append("rect")
+            .attr("class","test_" + element)
             .attr("x", 1)
-            .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) - 1; })
-            .attr("height", function(d) { return height - y(d.length); })
+            .attr("transform", d => "translate(" + x(d.x0) + "," + y(d.length) + ")")
+            .attr("width", d => (x(d.x1) - x(d.x0) - 1) > 0 ? (x(d.x1) - x(d.x0) - 1) : 0)
+            .attr("height", d => height - y(d.length))
             .style("fill", colorschemes['species'](element))
             .style("opacity", 0.6);
+        });
+
+        var svg = this;
+
+        this.container.selectAll("rect").on("click", ev => {
+            this.zoomIn(ev,svg)
         });
 
         this.xAxisLabel.append('text')

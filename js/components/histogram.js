@@ -25,8 +25,6 @@ class Histogram {
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
-
-
     }
 
     update(data, xVar) {
