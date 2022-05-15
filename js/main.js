@@ -1,7 +1,7 @@
 // Defining the colors to be used for each species, island and quantitative attribute on the visualizations.  
 
 speciescolorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
-islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#faea37",'Biscoe':"#184A45FF"};
+islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#e6d302",'Biscoe':"#184A45FF"};
 sexcolorschemes = {'male':"#3477eb",'female':"#ff4a89",'other':"lightgrey"};
 colorspecies = d3.scaleOrdinal()
 .domain(Object.keys(speciescolorschemes))

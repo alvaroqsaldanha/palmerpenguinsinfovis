@@ -31,39 +31,51 @@ class Piechart {
     update(data,dvar) {
         const categories = [...new Set(data.map(d => d[dvar]))]
         const counts = {}
+        const percentages = {}
 
         categories.forEach(c => {
             counts[c] = data.filter(d => d[dvar] === c).length;
+            percentages[c] = counts[c] / data.length;
         })
-
-        var colorschemes = {'species': colorspecies , 'sex': d3.scaleOrdinal()
-        .domain(Object.keys(counts))
-        .range(["#3477eb","#ff4a89","lightgrey"])};
-
-        var color = colorschemes[dvar];
-        
-
-        var pie = d3.pie()
-        .value(function(d) {return d[1];})
-        var data_ready = pie(Object.entries(counts))
 
         var arcGenerator = d3.arc()
         .innerRadius(0)
         .outerRadius(this.radius)
 
-        this.u = this.container.selectAll("paths")
+        var color = colorschemes[dvar];
+        
+        var pie = d3.pie()
+        .value(function(d) {return d[1];})
+        var data_ready = pie(Object.entries(counts))
+
+        this.i = this.container.selectAll("paths")
                 .data(data_ready)
 
         
-        this.u
+        this.i
             .enter()
             .append('path')
-            .merge(this.u)
-            .attr('d', arcGenerator)
-            .attr('fill', function(d){ return(color(d.data[0])) })
+            .merge(this.i)
+            .transition()
+            .duration(1000)
+            .attr('d', d3.arc()
+            .innerRadius(0)
+            .outerRadius(this.radius))
+            .attr('fill', function(d){ return(color(d.data[0]))})
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 1);
+
+        this.i
+            .enter()
+            .append('text')
+            .text(d => Math.round(percentages[d.data[0]] * 1000) / 10 + "% - " + d.data[1])
+            .attr("transform", d => "translate(" + arcGenerator.centroid(d) + ")")
+            .style("text-anchor", "middle")
+            .style("font-size", 12)
+            .style("font-family","sans-serif")
+            .style("font-weight","bold")
+            
             
         if (!this.init) {
 
@@ -94,7 +106,7 @@ class Piechart {
             
         } 
     
-        this.u
+        this.i
         .exit()
         .remove()
 

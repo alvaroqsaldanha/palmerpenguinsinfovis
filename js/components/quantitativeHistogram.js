@@ -26,7 +26,7 @@ class QuantitativeHistogram {
 
     zoomIn(ev,hist) {
         console.log(ev.path[0].className.baseVal)
-        hist.update({},['Gentoo']);
+        //hist.update({},['Gentoo']);
     }
 
     update(data, catVars) {

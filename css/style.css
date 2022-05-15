@@ -10,7 +10,6 @@ h1 {
    font-size: 4em;
    font-family: 'Roboto', sans-serif;
    border-bottom: 3px solid #424242;
-   
 }
 
 h2 {
@@ -23,7 +22,7 @@ a {
 }
 
 a:hover {
-    color: #E27D5F;
+    color: #ff547f;
     cursor: pointer;
 }
 
