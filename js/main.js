@@ -1,7 +1,7 @@
 // Defining the colors to be used for each species, island and quantitative attribute on the visualizations.  
 
 speciescolorschemes = {'Adelie':"#FF6A00",'Gentoo':"#057276",'Chinstrap':"#C75ECB"};
-islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#e6d302",'Biscoe':"#184A45FF"};
+islandcolorschemes = {'Torgersen':"#FC766AFF",'Dream':"#faea37",'Biscoe':"#184A45FF"};
 sexcolorschemes = {'male':"#3477eb",'female':"#ff4a89",'other':"lightgrey"};
 colorspecies = d3.scaleOrdinal()
 .domain(Object.keys(speciescolorschemes))
@@ -15,24 +15,6 @@ colorsex = d3.scaleOrdinal()
 colorschemes = {'species': colorspecies, 'island': colorislands, 'sex': colorsex};
 
 // Functions to update the visualizations.
-
-function updatePiechart(data,dvar) {
-    var filtereddata = data;
-    d3.select("h2").text(dvar);
-    d3.select(".overviewbt").attr("style","background-color: ##47a2d6");
-    d3.selectAll(".islandselect").attr("style","background-color: ##47a2d6");
-    if (dvar != "Archipelago Overview") {
-        dvar = dvar.split(" ")[0];
-        d3.select(".overviewbt").attr("style","background-color:" + colorschemes['island'](dvar));
-        d3.selectAll(".islandselect").attr("style","background-color:" + colorschemes['island'](dvar));
-        filtereddata = data.filter(row => {
-            return row['island'] == dvar;
-        });
-    }
-    speciespiechart.update(filtereddata,'species');
-    sexpiechart.update(filtereddata,'sex');
-} 
-
 
 function updateParallelCoordinates(brushedData, data) {
     let cVar = d3.select("input[type=radio][name=pc-encoding]:checked").property("value");
@@ -49,6 +31,29 @@ function updateScatterplot() {
     let yVar = d3.select("input[type=radio][name=y-encoding]:checked").property("value");
     correlationscatterplot.update(xVar, yVar);
 }
+
+function updatePiechart(data,dvar) {
+    var filtereddata = data;
+    d3.select("h2").text(dvar);
+    d3.select(".overviewbt").attr("style","background-color: ##47a2d6");
+    d3.selectAll(".islandselect").attr("style","background-color: ##47a2d6");
+    if (dvar != "Archipelago Overview") {
+        dvar = dvar.split(" ")[0];
+        d3.select(".overviewbt").attr("style","background-color:" + colorschemes['island'](dvar));
+        if (dvar == "Dream") {
+            d3.selectAll("figcaption").attr("style","color:#000000");
+        }
+        else {
+            d3.selectAll("figcaption").attr("style","color:#ffffff");            
+        }
+        d3.selectAll(".islandselect").attr("style","background-color:" + colorschemes['island'](dvar));
+        filtereddata = data.filter(row => {
+            return row['island'] == dvar;
+        });
+    }
+    speciespiechart.update(filtereddata,'species');
+    sexpiechart.update(filtereddata,'sex');
+} 
 
 function updateQuantitativeHistograms(data) {
     quantitativehistogram1.update(data,['Adelie','Gentoo','Chinstrap']);

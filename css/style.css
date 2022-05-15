@@ -2,6 +2,7 @@
 
 body {
     background-color: #ffffff;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -37,6 +38,13 @@ a:hover {
     height: 180px;
     border: none;
     background-color:#47a2d6;
+} 
+
+.islandselectmenu {
+    height: auto;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
 }
 
 .arcoverview {
@@ -72,6 +80,10 @@ figcaption {
 
 .biscoehover:hover {
     background-color: #184A45FF;
+}
+
+#Whole {
+    border-radius: 48%;
 }
 
 /* Histogram Zoom Styling */

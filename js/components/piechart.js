@@ -56,8 +56,6 @@ class Piechart {
             .enter()
             .append('path')
             .merge(this.i)
-            .transition()
-            .duration(1000)
             .attr('d', d3.arc()
             .innerRadius(0)
             .outerRadius(this.radius))
