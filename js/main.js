@@ -88,7 +88,7 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
         updatePiechart(data, 'Biscoe Island');
     });
 
-    correlationscatterplot = new Scatterplot("#scatterplot",data);
+    correlationscatterplot = new Scatterplot("#scatterplot","#sc-tooltip",data);
     correlationscatterplot.initialize();
     updateScatterplot();
     d3.selectAll("input[type=radio][name=xs-encoding]").on("change", updateScatterplot);

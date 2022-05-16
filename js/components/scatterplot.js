@@ -3,11 +3,12 @@ class Scatterplot {
         top: 50, right: 100, bottom: 40, left: 50
     }
 
-    constructor(svg, data, width = 300, height = 300) {
+    constructor(svg, tooltip, data, width = 300, height = 300) {
         this.svg = svg;
         this.data = data;
         this.width = width;
         this.height = height;
+        this.tooltip = tooltip;
         this.handlers = {};
     }
 
@@ -19,6 +20,7 @@ class Scatterplot {
         this.legend = this.svg.append("g");
         this.xAxisLabel = this.svg.append("g");
         this.yAxisLabel = this.svg.append("g");
+        this.tooltip = d3.select(this.tooltip);
 
         this.xScale = d3.scaleLinear();
         this.yScale = d3.scaleLinear();
@@ -52,24 +54,26 @@ class Scatterplot {
         this.circles = this.container.selectAll("circle")
             .data(data)
             .join("circle")
-            /*.on("mouseover", (e, d) => {
-                this.tooltip.select(".tooltip-inner").html(`${xVar}: ${d[xVar]}<br/>${yVar}: ${d[yVar]}`);
-                Popper.createPopper(e.target, this.tooltip.node(), {
-                    placement:'top',
-                    modifiers:[
-                        {
-                            name:'arrow',
-                            options:{
-                                element:this.tooltip.select(".tooltip-arrow").node(),
+            .on("mouseover", (e, d) => {
+                this.tooltip.select(".tooltip-inner")
+                    .html(`${this.xVar}: ${d[this.xVar]}<br />${this.yVar}: ${d[this.yVar]}`);
+                
+            Popper.createPopper(e.target, this.tooltip.node(), {
+                placement: 'top',
+                modifiers: [
+                    {
+                            name: 'arrow',
+                            options: {
+                                element: this.tooltip.select(".tooltip-arrow").node(),
                             },
                         },
                     ],
                 });
                 this.tooltip.style("display", "block");
             })
-            .on("mouseout", (d) =>{
-                this.tooltip.style("display", "block");
-            });*/
+            .on("mouseout", (d) => {
+                this.tooltip.style("display", "none");
+            });
 
         this.circles
             .transition()

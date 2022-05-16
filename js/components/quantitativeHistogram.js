@@ -16,6 +16,7 @@ class QuantitativeHistogram {
         this.container = this.svg.append("g");
         this.xAxisLabel = this.svg.append("g");
         this.yAxisLabel = this.svg.append("g");
+        this.x = null;
 
         this.svg
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -24,9 +25,7 @@ class QuantitativeHistogram {
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
     }
 
-    zoomIn(ev,hist) {
-        console.log(ev.path[0].className.baseVal)
-        //hist.update({},['Gentoo']);
+    zoomIn(ev,hist,data) {
     }
 
     update(data, catVars) {
@@ -35,13 +34,13 @@ class QuantitativeHistogram {
         var columndata = data.map(d =>  d[xVar])
         let max = d3.max(columndata)
         let min = d3.min(columndata)
-        var x = d3.scaleLinear().domain([min,max]).range([0, this.width]);
-        this.container.append("g").attr("transform", "translate(0," + this.height + ")").call(d3.axisBottom(x));
+        this.x = d3.scaleLinear().domain([min,max]).range([0, this.width]);
+        this.container.append("g").attr("transform", "translate(0," + this.height + ")").call(d3.axisBottom(this.x));
 
         var histogram = d3.histogram()
         .value(d => d[xVar]) 
-        .domain(x.domain())  
-        .thresholds(x.ticks(30));
+        .domain(this.x.domain())  
+        .thresholds(this.x.ticks(30));
 
         var bins = {}
         
@@ -61,7 +60,7 @@ class QuantitativeHistogram {
         y.domain([0, max]);   
         this.container.append("g").call(d3.axisLeft(y));
 
-        var count = 0
+        let count = 0;
 
         catVars.forEach(element => {
             this.container.selectAll("rect" + count)
@@ -70,18 +69,21 @@ class QuantitativeHistogram {
             .append("rect")
             .attr("class","test_" + element)
             .attr("x", 1)
-            .attr("transform", d => "translate(" + x(d.x0) + "," + y(d.length) + ")")
-            .attr("width", d => (x(d.x1) - x(d.x0) - 1) > 0 ? (x(d.x1) - x(d.x0) - 1) : 0)
+            .attr("transform", d => "translate(" + this.x(d.x0) + "," + y(d.length) + ")")
+            .attr("width", d => (this.x(d.x1) - this.x(d.x0) - 1) > 0 ? (this.x(d.x1) - this.x(d.x0) - 1) : 0)
             .attr("height", d => height - y(d.length))
             .style("fill", colorschemes['species'](element))
             .style("opacity", 0.6);
-        });
+            count = count + 1;
+        }); 
 
         var svg = this;
 
         this.container.selectAll("rect").on("click", ev => {
-            this.zoomIn(ev,svg)
-        });
+            this.zoomIn(ev,svg,data)
+        }); 
+
+        this.container.selectAll("rect").exit().remove();
 
         this.xAxisLabel.append('text')
         .attr('class', 'axis-label')
@@ -98,6 +100,7 @@ class QuantitativeHistogram {
         .style('text-anchor', 'middle')
         .attr('font-size',12)
         .text("Frequency");
+
         
     }
 
