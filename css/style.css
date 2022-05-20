@@ -88,19 +88,34 @@ figcaption {
 
 /* Histogram Zoom Styling */
 
-.test_Adelie:hover {
-    cursor: pointer;
-}
-
-.test_Gentoo:hover {
-    cursor: pointer;
-}
-
-.test_Chinstrap:hover {
+.qh:hover {
     cursor: pointer;
 }
 
 .pcselector {
     transform: translateY(-40px);
     font-size: 12px;
+}
+
+#quantitativelegend {
+    display:inline;
+}
+
+h5 {
+    text-align: center;
+}
+
+h6 {
+    font-weight:normal;
+}
+
+.statsdiv {
+    width: 50%;
+    float: left;
+    text-align: right;
+}
+
+.statsdivalign {
+    text-align: left;
+    padding-left: 30px;
 }

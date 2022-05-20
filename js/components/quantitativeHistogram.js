@@ -25,15 +25,33 @@ class QuantitativeHistogram {
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
     }
 
-    zoomIn(ev,hist,data) {
-    }
-
     update(data, catVars) {
 
         var xVar = this.xVar;
         var columndata = data.map(d =>  d[xVar])
+        var overviewcalcs = {};
         let max = d3.max(columndata)
         let min = d3.min(columndata)
+
+        overviewcalcs["avg"] = d3.mean(columndata).toFixed(2);
+        overviewcalcs["high"] = max;
+        overviewcalcs["low"] = min;
+        overviewcalcs["median"] = d3.median(columndata).toFixed(2);
+        overviewcalcs["var"] = d3.variance(columndata);
+        overviewcalcs["dev"] = d3.deviation(columndata);
+
+        var setlabels = () => {
+            d3.select("h5").text("Penguin Overview " + this.xVar + ":");
+            d3.select("#avgvalue").text("Average Value: " + overviewcalcs["avg"]);
+            d3.select("#highvalue").text("Highest Value: " + overviewcalcs["high"]);
+            d3.select("#lowvalue").text("Lowest Value: " + overviewcalcs["low"]);
+            d3.select("#medianvalue").text("Median: " + overviewcalcs["avg"]);
+            d3.select("#varvalue").text("Variance: " + overviewcalcs["high"]);
+            d3.select("#devvalue").text("Deviation: " + overviewcalcs["low"]);
+        }
+        setlabels();
+        this.svg.on("click", setlabels);
+
         this.x = d3.scaleLinear().domain([min,max]).range([0, this.width]);
         this.container.append("g").attr("transform", "translate(0," + this.height + ")").call(d3.axisBottom(this.x));
 
@@ -43,9 +61,19 @@ class QuantitativeHistogram {
         .thresholds(this.x.ticks(30));
 
         var bins = {}
+        var calcs = {};
         
         catVars.forEach(element => {
-            bins[element] = histogram(data.filter( function(d){return d.species === element}));
+            var speciesdata = data.filter( function(d){return d.species === element});
+            bins[element] = histogram(speciesdata); 
+            columndata = speciesdata.map(d =>  d[xVar])
+            calcs[element] = {};
+            calcs[element]["avg"] = d3.mean(columndata).toFixed(2);
+            calcs[element]["high"] = d3.max(columndata);
+            calcs[element]["low"] = d3.min(columndata);
+            calcs[element]["median"] = d3.median(columndata).toFixed(2);
+            calcs[element]["var"] = d3.variance(columndata);
+            calcs[element]["dev"] = d3.deviation(columndata);
         });
 
         var height = this.height;
@@ -60,13 +88,20 @@ class QuantitativeHistogram {
         y.domain([0, max]);   
         this.container.append("g").call(d3.axisLeft(y));
 
-        let count = 0;
-
         catVars.forEach(element => {
-            this.container.selectAll("rect" + count)
+            this.container.selectAll("rect" + element)
             .data(bins[element])
             .enter()
             .append("rect")
+            .on("mouseover", (e) => {
+                d3.select("h5").text(element + " " + this.xVar + ":");
+                d3.select("#avgvalue").text("Average Value: " + calcs[element]["avg"]);
+                d3.select("#highvalue").text("Highest Value: " + calcs[element]["high"]);
+                d3.select("#lowvalue").text("Lowest Value: " + calcs[element]["low"]);
+                d3.select("#medianvalue").text("Median: " + calcs[element]["avg"]);
+                d3.select("#varvalue").text("Variance: " + calcs[element]["high"]);
+                d3.select("#devvalue").text("Deviation: " + calcs[element]["low"]);
+            })
             .attr("class","test_" + element)
             .attr("x", 1)
             .attr("transform", d => "translate(" + this.x(d.x0) + "," + y(d.length) + ")")
@@ -74,13 +109,6 @@ class QuantitativeHistogram {
             .attr("height", d => height - y(d.length))
             .style("fill", colorschemes['species'](element))
             .style("opacity", 0.6);
-            count = count + 1;
-        }); 
-
-        var svg = this;
-
-        this.container.selectAll("rect").on("click", ev => {
-            this.zoomIn(ev,svg,data)
         }); 
 
         this.container.selectAll("rect").exit().remove();
