@@ -114,14 +114,14 @@ class QuantitativeHistogram {
         this.container.selectAll("rect").exit().remove();
 
         this.xAxisLabel.append('text')
-        .attr('class', 'axis-label')
+        .attr('class', 'axis-label1')
         .attr('x', this.width / 2)
         .attr('y', this.height + 80)
         .attr('font-size',12)
         .text(xVar);
 
         this.yAxisLabel.append('text')
-        .attr('class', 'axis-label')
+        .attr('class', 'axis-label1')
         .attr('x', -200)
         .attr('y', 10)
         .attr('transform', `rotate(-90)`)
