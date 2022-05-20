@@ -3,7 +3,7 @@ class QuantitativeHistogram {
         top: 50, right: 10, bottom: 40, left: 40
     }
 
-    constructor(svg, xVar, padding = 0, width = 300, height = 300) {
+    constructor(svg, xVar, padding = 0, width = 280, height = 280) {
         this.svg = svg;
         this.width = width;
         this.height = height;

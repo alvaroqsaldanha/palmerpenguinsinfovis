@@ -86,7 +86,12 @@ figcaption {
     border-radius: 48%;
 }
 
-/* Histogram Zoom Styling */
+/* Histogram Styling */
+
+.histcontainer {
+    width: 70%;
+    float: left;
+}
 
 .qh:hover {
     cursor: pointer;
@@ -98,6 +103,7 @@ figcaption {
 }
 
 #quantitativelegend {
+    padding-top: 200px;
     display:inline;
 }
 
@@ -107,6 +113,15 @@ h5 {
 
 h6 {
     font-weight:normal;
+}
+
+.statslabels {
+    float: left;
+    width: 30%;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 200px;
+    transform: translateX(-100px);
 }
 
 .statsdiv {
