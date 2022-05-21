@@ -86,6 +86,12 @@ figcaption {
     border-radius: 48%;
 }
 
+/* Scatterplot Tooltip */
+
+#sc-tooltip {
+    display: none;
+}
+
 /* Parallel Coordinates Menu */
 
 .pcselector {
