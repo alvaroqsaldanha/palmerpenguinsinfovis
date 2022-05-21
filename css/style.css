@@ -86,6 +86,13 @@ figcaption {
     border-radius: 48%;
 }
 
+/* Parallel Coordinates Menu */
+
+.pcselector {
+    transform: translateY(-40px);
+    font-size: 12px;
+}
+
 /* Histogram Styling */
 
 .histcontainer {
@@ -97,10 +104,6 @@ figcaption {
     cursor: pointer;
 }
 
-.pcselector {
-    transform: translateY(-40px);
-    font-size: 12px;
-}
 
 #quantitativelegend {
     padding-top: 200px;

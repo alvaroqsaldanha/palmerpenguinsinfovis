@@ -92,26 +92,24 @@ class Scatterplot {
             .transition()
             .call(d3.axisLeft(this.yScale));
 
-        const innerHeight = this.height - this.margin.top - this.margin.bottom;
-
         this.xAxisLabel
-        .attr('transform', `translate(0, ${innerHeight})`);
+        .attr('transform', `translate(0, ${this.height - this.margin.top - this.margin.bottom})`);
 
-        const labels = document.getElementsByClassName("axis-label");
+        const labels = document.getElementsByClassName("axislabel");
         if (labels.length > 0) {
             for (let i = 0; i < labels.length; i++)
                 labels[i].textContent = " ";
         }
 
         this.xAxisLabel.append('text')
-        .attr('class', 'axis-label')
+        .attr('class', 'axislabel')
         .attr('x', this.width / 2)
         .attr('y', this.height / 2 + 20)
         .attr('font-size',12)
         .text(xVar);
 
         this.yAxisLabel.append('text')
-        .attr('class', 'axis-label')
+        .attr('class', 'axislabel')
         .attr('x', -200)
         .attr('y', 10)
         .attr('transform', `rotate(-90)`)

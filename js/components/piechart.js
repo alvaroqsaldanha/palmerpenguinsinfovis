@@ -38,33 +38,29 @@ class Piechart {
             percentages[c] = counts[c] / data.length;
         })
 
-        var arcGenerator = d3.arc()
-        .innerRadius(0)
-        .outerRadius(this.radius)
+        var arcGenerator = d3.arc().innerRadius(0).outerRadius(this.radius);
 
         var color = colorschemes[dvar];
         
         var pie = d3.pie()
-        .value(function(d) {return d[1];})
+        .value(d => d[1])
         var data_ready = pie(Object.entries(counts))
 
-        this.i = this.container.selectAll("paths")
-                .data(data_ready)
+        this.inside = this.container.selectAll("paths").data(data_ready)
 
-        
-        this.i
+        this.inside
             .enter()
             .append('path')
-            .merge(this.i)
+            .merge(this.inside)
             .attr('d', d3.arc()
             .innerRadius(0)
             .outerRadius(this.radius))
-            .attr('fill', function(d){ return(color(d.data[0]))})
+            .attr('fill', d => color(d.data[0]))
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 1);
 
-        this.i
+        this.inside
             .enter()
             .append('text')
             .text(d => Math.round(percentages[d.data[0]] * 1000) / 10 + "% - " + d.data[1])
@@ -73,7 +69,6 @@ class Piechart {
             .style("font-size", 12)
             .style("font-family","sans-serif")
             .style("font-weight","bold")
-            
             
         if (!this.init) {
 
@@ -101,14 +96,8 @@ class Piechart {
                 .style("alignment-baseline", "middle")
 
             this.init = true;
-            
         } 
-    
-        this.i
-        .exit()
-        .remove()
 
+        this.inside.exit().remove()
     }
-
-
 }

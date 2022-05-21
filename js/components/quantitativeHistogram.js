@@ -55,18 +55,15 @@ class QuantitativeHistogram {
         this.x = d3.scaleLinear().domain([min,max]).range([0, this.width]);
         this.container.append("g").attr("transform", "translate(0," + this.height + ")").call(d3.axisBottom(this.x));
 
-        var histogram = d3.histogram()
-        .value(d => d[xVar]) 
-        .domain(this.x.domain())  
-        .thresholds(this.x.ticks(30));
+        var histogram = d3.histogram().value(d => d[xVar]).domain(this.x.domain()).thresholds(this.x.ticks(30));
 
-        var bins = {}
+        var bins = {};
         var calcs = {};
         
         catVars.forEach(element => {
-            var speciesdata = data.filter( function(d){return d.species === element});
+            var speciesdata = data.filter(d => d.species === element);
             bins[element] = histogram(speciesdata); 
-            columndata = speciesdata.map(d =>  d[xVar])
+            columndata = speciesdata.map(d =>  d[xVar]);
             calcs[element] = {};
             calcs[element]["avg"] = d3.mean(columndata).toFixed(2);
             calcs[element]["high"] = d3.max(columndata);
@@ -78,9 +75,9 @@ class QuantitativeHistogram {
 
         var height = this.height;
 
-        var maxstuff = []
+        var maxstuff = [];
         catVars.forEach(element => {
-            maxstuff.push(d3.max(bins[element], d => d.length))
+            maxstuff.push(d3.max(bins[element], d => d.length));
         })
         max = d3.max(maxstuff);
 
@@ -111,25 +108,21 @@ class QuantitativeHistogram {
             .style("opacity", 0.6);
         }); 
 
-        this.container.selectAll("rect").exit().remove();
-
         this.xAxisLabel.append('text')
-        .attr('class', 'axis-label1')
+        .attr('class', 'axislabel1')
         .attr('x', this.width / 2)
         .attr('y', this.height + 80)
         .attr('font-size',12)
         .text(xVar);
 
         this.yAxisLabel.append('text')
-        .attr('class', 'axis-label1')
+        .attr('class', 'axislabel1')
         .attr('x', -200)
         .attr('y', 10)
         .attr('transform', `rotate(-90)`)
         .style('text-anchor', 'middle')
         .attr('font-size',12)
         .text("Frequency");
-
-        
     }
 
 }

@@ -47,7 +47,6 @@ class Histogram {
             .attr("height", d=>this.height-this.yScale(counts[d]))
             .attr("fill", d => colorschemes[xVar](d))
 
-
         this.xAxis
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top + this.height})`)
             .call(d3.axisBottom(this.xScale));
@@ -56,6 +55,4 @@ class Histogram {
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
             .call(d3.axisLeft(this.yScale));
     }
-
-
 }

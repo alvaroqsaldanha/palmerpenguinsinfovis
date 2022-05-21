@@ -14,6 +14,10 @@ class Parallelcoordinates {
     initialize() {
         this.svg = d3.select(this.svg);
         this.container = this.svg.append("g");
+        this.axes = this.container.append("g");
+        this.lines = this.container.append("g");
+        this.titles = this.container.append("g");
+        this.focusedLines = this.container.append("g");
 
         this.svg
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -21,9 +25,7 @@ class Parallelcoordinates {
 
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
-        this.xScale = d3.scalePoint()
-        .range([0, this.width])
-        .domain(this.vars);
+        this.xScale = d3.scalePoint().range([0, this.width]).domain(this.vars);
 
         this.yScales = {}
         this.vars.forEach(element => {
@@ -31,11 +33,6 @@ class Parallelcoordinates {
             .domain(d3.extent(this.data, d => d[element])) 
             .range([this.height, 0])           
         });
-
-        this.axes = this.container.append("g");
-        this.titles = this.container.append("g");
-        this.lines = this.container.append("g");
-        this.focusedLines = this.container.append("g");
     }
 
     update(brushedData, xVar) {
@@ -79,9 +76,5 @@ class Parallelcoordinates {
         .style("fill", "none")
         .style("stroke", d => colorschemes[xVar](d[xVar]))
         .style("opacity", 1)
-        
-    
-
     }
-
 }
