@@ -98,6 +98,10 @@ class QuantitativeHistogram {
                 d3.select("#medianvalue").text("Median: " + calcs[element]["avg"]);
                 d3.select("#varvalue").text("Variance: " + calcs[element]["high"]);
                 d3.select("#devvalue").text("Deviation: " + calcs[element]["low"]);
+                this.container.selectAll(".test_" + element).style("fill", "black");
+            })
+            .on("mouseout", (d) => {
+                this.container.selectAll(".test_" + element).style("fill", colorschemes['species'](element));
             })
             .attr("class","test_" + element)
             .attr("x", 1)
