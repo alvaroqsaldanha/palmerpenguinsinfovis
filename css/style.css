@@ -31,6 +31,10 @@ a:hover {
     margin-top: 0;
 }
 
+#speciesimg {
+    width: 10%;
+}
+
 /* Island Selection for Pie Chart Styling */
 
 .overviewbt {
