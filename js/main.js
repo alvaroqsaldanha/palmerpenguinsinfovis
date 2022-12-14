@@ -32,6 +32,12 @@ function updateScatterplot() {
     correlationscatterplot.update(xVar, yVar);
 }
 
+function updateScatterplotML() {
+    let xVarML = d3.select("input[type=radio][name=xs-encoding2]:checked").property("value");
+    let yVarML = d3.select("input[type=radio][name=y-encoding2]:checked").property("value");
+    correlationscatterplot2.update(xVarML, yVarML);
+}
+
 function updatePiechart(data,dvar) {
     var filtereddata = data;
     d3.select("h2").text(dvar);
@@ -94,6 +100,12 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     d3.selectAll("input[type=radio][name=xs-encoding]").on("change", updateScatterplot);
     d3.selectAll("input[type=radio][name=y-encoding]").on("change", updateScatterplot);
 
+    correlationscatterplot2 = new Scatterplot("#scatterplot2","#sc-tooltip2",data);
+    correlationscatterplot2.initialize();
+    updateScatterplotML();
+    d3.selectAll("input[type=radio][name=xs-encoding2]").on("change", updateScatterplotML);
+    d3.selectAll("input[type=radio][name=y-encoding2]").on("change", updateScatterplotML);
+
     brushedData = null;
     specieshistogram = new Histogram("#specieshistogram",0.3);
     specieshistogram.initialize();
@@ -132,3 +144,8 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     legend.append("text").attr("x", 100).attr("y", 60).text("Gentoo").style("font-size", "15px").attr("alignment-baseline","middle")
     legend.append("text").attr("x", 100).attr("y", 90).text("Chinstrap").style("font-size", "15px").attr("alignment-baseline","middle")
     });
+
+function updateRangeInput(obj, value) {
+    d3.select(obj).text(value);
+}
+
