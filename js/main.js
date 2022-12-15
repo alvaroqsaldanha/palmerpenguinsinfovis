@@ -79,7 +79,13 @@ function addToTable(feature,y,model,isl,sx) {
     var rowContent = `<tr><td>${numRows}</td><td>${model}</td><td>${isl}</td><td>${feature.year}</td><td>${sx}</td><td>${feature.bill_depth_mm}</td><td>${feature.bill_length_mm}</td><td>${feature.body_mass_g}</td><td>${feature.flipper_length_mm}</td><td>${y["acc"]}</td></tr>`;
     newRow.innerHTML = rowContent;
     newRow.style.backgroundColor = speciescolorschemes[y["acc"]];
+}
 
+function resetTable() {
+    correlationscatterplot2.removeNewData();
+    updateScatterplotML();
+    var tableBody = document.getElementById("tablebody");
+    tableBody.innerHTML = "";
 }
 
 // Initialization.
@@ -198,20 +204,27 @@ async function submitForm() {
     const resp = await callApi(jsonString);
     const y_pred = await resp.json();
     addToTable(new_feature,y_pred,model,isl,sx);
+    new_feature.island = isl;
+    new_feature.sex = sx;
+    new_feature.species = y_pred["acc"];
+    correlationscatterplot2.addData(new_feature);
+    updateScatterplotML();
 }
 
 callApi = (jsonString) => {
-    //const TOP = `http://127.0.0.1:5000/penguingen`;
-    const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
+    const TOP = "https://alvaroqsaldanha.pythonanywhere.com/penguingen";
+    console.log(TOP)
     return fetch(TOP, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization"
         },
         body: jsonString
     });
 }
-
 
 
