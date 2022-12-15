@@ -271,7 +271,8 @@
         </div>
     </div>
     <div class="tablecontainer">
-        <h5 style="text-align: left;">Generated Penguins:</h5>
+        <h5 style="display:inline; text-align: left;">Generated Penguins:</h5>
+        <button class="subbtn" style="float: right;" onclick="resetTable();">Reset</button>
         <table id="pengtable" class="table table-bordered table-hover">
             <thead class="thead-dark">
             <tr>
@@ -287,7 +288,7 @@
                 <th scope="col">Predicted Species</th>
             </tr>
             </thead>
-            <tbody class="tablebody"></tbody>
+            <tbody id="tablebody" class="tablebody"></tbody>
         </table>
     </div>
     </body>

@@ -17,6 +17,7 @@ data = read_csv(filename, na_values='?')
 target = 'species'
 pg_fields = list(data.columns)
 pg_fields.remove(target)
+models = {}
 
 y: np.ndarray = data.pop(target).values
 X: np.ndarray = data.values
@@ -26,11 +27,12 @@ labels.sort()
 
 clf = GaussianNB()
 clf.fit(trnX, trnY)
+models["GNB"] = clf
 
 def validate_json(data):
   new_feature = []
   for field in pg_fields:
-    if field not in data:
+    if field not in data and field != 'model':
       raise ValueError('No ' + field + " in request.")
     new_feature.append(data[field]) 
   return new_feature
@@ -39,10 +41,11 @@ def validate_json(data):
 def penguingen():
   try:
     data = request.get_json()
+    model = data["model"]
     new_penguin = validate_json(data)
   except Exception as e:
     return "Bad Request with exception: " + repr(e), 400
-  prd_tst = clf.predict([new_penguin])
+  prd_tst = models[model].predict([new_penguin])
   return jsonify({"acc":prd_tst[0]})
 
 if __name__ == '__main__':

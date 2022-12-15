@@ -82,12 +82,20 @@ function addToTable(feature,y,model,isl,sx) {
 
 }
 
+function resetTable() {
+    correlationscatterplot2.removeNewData();
+    updateScatterplotML();
+    var tableBody = document.getElementById("tablebody");
+    console.log(tableBody)
+    tableBody.innerHTML = "";
+}
+
 // Initialization.
 
 // Fetching the dataset
 var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguinsinfovis/main/data/penguins_prep.csv")
     .then( data => {
-    
+
     //  Initialization of components
     speciespiechart = new Piechart("#speciespiechart", "Species Distribution")
     sexpiechart = new Piechart("#sexpiechart", "Gender Distribution")
@@ -162,6 +170,7 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
 async function submitForm() {
     var new_feature = new Object();
     var model = d3.select(".model-rng").node().value;
+    new_feature.model = model;
     new_feature.bill_length_mm = parseInt(d3.select(".bl-rng").node().value);
     new_feature.bill_depth_mm = parseInt(d3.select(".bd-rng").node().value);
     new_feature.flipper_length_mm = parseInt(d3.select(".fl-rng").node().value);
@@ -197,10 +206,16 @@ async function submitForm() {
     const resp = await callApi(jsonString);
     const y_pred = await resp.json();
     addToTable(new_feature,y_pred,model,isl,sx);
+    new_feature.island = isl;
+    new_feature.sex = sx;
+    new_feature.species = y_pred["acc"];
+    correlationscatterplot2.addData(new_feature);
+    updateScatterplotML();
 }
 
 callApi = (jsonString) => {
-    const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
+    const TOP = `http://127.0.0.1:5000/penguingen`;
+    //const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
     return fetch(TOP, {
         method: 'POST',
         headers: {

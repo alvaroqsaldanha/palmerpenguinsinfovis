@@ -10,6 +10,7 @@ class Scatterplot {
         this.height = height;
         this.tooltip = tooltip;
         this.handlers = {};
+        this.addedData = 0;
     }
 
     initialize() {
@@ -141,6 +142,18 @@ class Scatterplot {
                 .style("alignment-baseline", "middle")
 
             this.init = true;
+        }
+    }
+
+    addData(feature) {
+        this.data.push(feature);
+        this.addedData++;
+    }
+
+    removeNewData() {
+        while (this.addedData != 0) {
+            this.data.pop();
+            this.addedData--;
         }
     }
 
