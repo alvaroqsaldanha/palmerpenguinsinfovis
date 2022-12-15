@@ -68,6 +68,20 @@ function updateQuantitativeHistograms(data) {
     quantitativehistogram4.update(data,['Adelie','Gentoo','Chinstrap']);
 }
 
+function updateRangeInput(obj, value) {
+    d3.select(obj).text(value);
+}
+
+function addToTable(feature,y,model,isl,sx) {
+    var tableRef = document.getElementById('pengtable').getElementsByTagName('tbody')[0];
+    var numRows = tableRef.rows.length;
+    var newRow = tableRef.insertRow(numRows);
+    var rowContent = `<tr><td>${numRows}</td><td>${model}</td><td>${isl}</td><td>${feature.year}</td><td>${sx}</td><td>${feature.bill_depth_mm}</td><td>${feature.bill_length_mm}</td><td>${feature.body_mass_g}</td><td>${feature.flipper_length_mm}</td><td>${y["acc"]}</td></tr>`;
+    newRow.innerHTML = rowContent;
+    newRow.style.backgroundColor = speciescolorschemes[y["acc"]];
+
+}
+
 // Initialization.
 
 // Fetching the dataset
@@ -145,7 +159,57 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     legend.append("text").attr("x", 100).attr("y", 90).text("Chinstrap").style("font-size", "15px").attr("alignment-baseline","middle")
     });
 
-function updateRangeInput(obj, value) {
-    d3.select(obj).text(value);
+async function submitForm() {
+    var new_feature = new Object();
+    var model = d3.select(".model-rng").node().value;
+    new_feature.bill_length_mm = parseInt(d3.select(".bl-rng").node().value);
+    new_feature.bill_depth_mm = parseInt(d3.select(".bd-rng").node().value);
+    new_feature.flipper_length_mm = parseInt(d3.select(".fl-rng").node().value);
+    new_feature.body_mass_g = parseInt(d3.select(".bm-rng").node().value);
+    new_feature.year = parseInt(d3.select(".y-rng").node().value);
+    var isl = d3.select(".isl-rng").node().value;
+    new_feature.island_Biscoe = 0
+    new_feature.island_Dream = 0 
+    new_feature.island_Torgersen = 0
+    if (isl == "dream") {
+        new_feature.island_Dream = 1
+    }
+    else if (isl == "biscoe") {
+        new_feature.island_Biscoe= 1
+    }
+    else {
+        new_feature.island_Torgersen = 1
+    }
+    new_feature.sex_female = 0
+    new_feature.sex_male = 0
+    new_feature.sex_other = 0
+    var sx = d3.select(".sx-rng").node().value;
+    if (sx == "male") {
+        new_feature.sex_male = 1
+    }
+    else if (sx == "female") {
+        new_feature.sex_female = 1
+    }
+    else {
+        new_feature.sex_other = 1
+    }
+    var jsonString= JSON.stringify(new_feature);
+    const resp = await callApi(jsonString);
+    const y_pred = await resp.json();
+    addToTable(new_feature,y_pred,model,isl,sx);
 }
+
+callApi = (jsonString) => {
+    const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
+    return fetch(TOP, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonString
+    });
+}
+
+
 
