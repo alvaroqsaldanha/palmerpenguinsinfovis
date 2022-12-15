@@ -214,8 +214,8 @@ async function submitForm() {
 }
 
 callApi = (jsonString) => {
-    const TOP = `http://127.0.0.1:5000/penguingen`;
-    //const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
+    //const TOP = `http://127.0.0.1:5000/penguingen`;
+    const TOP = `https:/alvaroqsaldanha.pythonanywhere.com/penguingen`;
     return fetch(TOP, {
         method: 'POST',
         headers: {
