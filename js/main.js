@@ -76,9 +76,9 @@ function addToTable(feature,y,model,isl,sx) {
     var tableRef = document.getElementById('pengtable').getElementsByTagName('tbody')[0];
     var numRows = tableRef.rows.length;
     var newRow = tableRef.insertRow(numRows);
-    var rowContent = `<tr><td>${numRows}</td><td>${model}</td><td>${isl}</td><td>${feature.year}</td><td>${sx}</td><td>${feature.bill_depth_mm}</td><td>${feature.bill_length_mm}</td><td>${feature.body_mass_g}</td><td>${feature.flipper_length_mm}</td><td>${y["acc"]}</td></tr>`;
+    var rowContent = `<tr><td>${numRows}</td><td>${model}</td><td>${isl}</td><td>${feature.year}</td><td>${sx}</td><td>${feature.bill_depth_mm}</td><td>${feature.bill_length_mm}</td><td>${feature.body_mass_g}</td><td>${feature.flipper_length_mm}</td><td>${y}</td></tr>`;
     newRow.innerHTML = rowContent;
-    newRow.style.backgroundColor = speciescolorschemes[y["acc"]];
+    newRow.style.backgroundColor = speciescolorschemes[y];
 }
 
 function resetTable() {
@@ -86,6 +86,22 @@ function resetTable() {
     updateScatterplotML();
     var tableBody = document.getElementById("tablebody");
     tableBody.innerHTML = "";
+}
+
+async function randomPenguins(amount) {
+    var json = new Object();
+    var model = d3.select(".model-rng").node().value;
+    json.model = model;
+    json.amount = amount;
+    var jsonString= JSON.stringify(json);
+    const res = await callApiRandomPenguins(jsonString);
+    const resp = await res.json();
+    for (var i = 0; i < resp["pengs"].length; i++) {
+        feature = resp["pengs"][i];
+        addToTable(feature,feature["species"],model,feature.island,feature["sex"]);
+        correlationscatterplot2.addData(feature);
+        updateScatterplotML();
+    }
 }
 
 // Initialization.
@@ -201,9 +217,9 @@ async function submitForm() {
         new_feature.sex_other = 1
     }
     var jsonString= JSON.stringify(new_feature);
-    const resp = await callApi(jsonString);
+    const resp = await callApiNewPenguin(jsonString);
     const y_pred = await resp.json();
-    addToTable(new_feature,y_pred,model,isl,sx);
+    addToTable(new_feature,y_pred["acc"],model,isl,sx);
     new_feature.island = isl;
     new_feature.sex = sx;
     new_feature.species = y_pred["acc"];
@@ -211,9 +227,25 @@ async function submitForm() {
     updateScatterplotML();
 }
 
-callApi = (jsonString) => {
+// API CALLS
+
+callApiNewPenguin = (jsonString) => {
     const TOP = "https://alvaroqsaldanha.pythonanywhere.com/penguingen";
-    console.log(TOP)
+    return fetch(TOP, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization"
+        },
+        body: jsonString
+    });
+}
+
+callApiRandomPenguins = (jsonString) => {
+    const TOP = "https://alvaroqsaldanha.pythonanywhere.com/rndpenguingen";
     return fetch(TOP, {
         method: 'POST',
         headers: {
