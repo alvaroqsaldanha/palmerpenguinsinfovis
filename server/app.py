@@ -26,6 +26,9 @@ labels.sort()
 clf = GaussianNB()
 clf.fit(trnX, trnY)
 models["GNB"] = clf
+clf = MultinomialNB()
+clf.fit(trnX, trnY)
+models["MNB"] = clf
 
 def validate_json(data):
   new_feature = []

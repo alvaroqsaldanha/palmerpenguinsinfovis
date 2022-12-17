@@ -171,6 +171,7 @@
               <label for="validationDefault01">Model</label>
               <select class="custom-select model-rng" required>
                   <option value="GNB">Gaussian Naive Bayes</option>
+                  <option value="MNB">Multinomial Naive Bayes</option>
                 </select>
             </div>
         </div>
@@ -274,7 +275,6 @@
         <h5 style="display:inline; text-align: left;">Generated Penguins:</h5>
         <button class="subbtn" style="float: right;" onclick="resetTable();">Reset</button>
         <button class="subbtn" style="float: right;" onclick="randomPenguins(10);">Generate Random Penguins</button>
-        
         <table id="pengtable" class="table table-bordered table-hover">
             <thead class="thead-dark">
             <tr>
