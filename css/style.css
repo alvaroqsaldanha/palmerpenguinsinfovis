@@ -133,8 +133,13 @@ figcaption {
     float: left;
 }
 
+.qh {
+    transition: 1s;;
+}
+
 .qh:hover {
     cursor: pointer;
+    transform: scale(1.05);
 }
 
 
