@@ -1,4 +1,5 @@
 # palmerpenguinsinfovis
-An information visualization focused web-app, using d3.js, over the [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) dataset. Currently, an additional feature to generate new penguin instances and predict the species of data examples given by the user is being developed, using multiple machine learning models through scikit-learn running on a Flask server.
+
+An information visualization and machine learning focused web-app, offering multiple dynamic views to explore the [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) dataset, while providing penguin species prediction capabilities using various classification models. The front-end uses JavaScript visualization library d3.JS, along with Ajax to fetch data from a Flask server running integrated scikit-learn models. Currently, a ML model evaluation section is being developed.
 
 [Live Demo Here](https://alvaroqsaldanha.github.io/palmerpenguinsinfovis/)
