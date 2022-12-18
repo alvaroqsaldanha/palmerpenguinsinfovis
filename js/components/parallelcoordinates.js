@@ -3,12 +3,13 @@ class Parallelcoordinates {
         top: 50, right: 100, bottom: 40, left: 50
     }
 
-    constructor(svg, data, vars, width = 300, height = 300) {
+    constructor(svg, data, vars, title, width = 300, height = 300) {
         this.svg = svg;
         this.width = width;
         this.height = height;
         this.data = data;
         this.vars = vars;
+        this.title = title;
     }
 
     initialize() {
@@ -33,6 +34,12 @@ class Parallelcoordinates {
             .domain(d3.extent(this.data, d => d[element])) 
             .range([this.height, 0])           
         });
+
+        this.svg.append("text")
+        .attr("x", this.width/2 + this.width/6 )
+        .attr("y", this.height / 12)
+        .style("text-anchor", "middle")
+        .text(this.title);
     }
 
     update(brushedData, xVar) {

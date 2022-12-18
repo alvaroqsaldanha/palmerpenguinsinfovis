@@ -143,11 +143,11 @@ var df = d3.csv("https://raw.githubusercontent.com/alvaroqsaldanha/palmerpenguin
     d3.selectAll("input[type=radio][name=y-encoding2]").on("change", updateScatterplotML);
 
     brushedData = null;
-    specieshistogram = new Histogram("#specieshistogram",0.3);
+    specieshistogram = new Histogram("#specieshistogram",0.3,"Species Histogram");
     specieshistogram.initialize();
-    parallelcoordinates = new Parallelcoordinates("#parallelcoordinates",data,['flipper_length_mm','bill_length_mm','bill_depth_mm','body_mass_g']);
+    parallelcoordinates = new Parallelcoordinates("#parallelcoordinates",data,['flipper_length_mm','bill_length_mm','bill_depth_mm','body_mass_g'], "Numeric Parallel Coordinates");
     parallelcoordinates.initialize();  
-    islandhistogram = new Histogram("#islandhistogram",0.3);
+    islandhistogram = new Histogram("#islandhistogram",0.3,"Island Histogram");
     islandhistogram.initialize();
 
     correlationscatterplot.on("brush",  (brushedItems) => { 

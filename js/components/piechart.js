@@ -1,6 +1,6 @@
 class Piechart {
 
-    constructor(svg, title, width = 400, height = 400) {
+    constructor(svg, title, width = 500, height = 450) {
         this.svg = svg;
         this.width = width;
         this.height = height;
@@ -77,8 +77,8 @@ class Piechart {
                 .data(Object.keys(categories))
                 .enter()
                 .append("rect")
-                .attr("x", this.width - this.width/4)
-                .attr("y", i => 300 + i*(size+5)) 
+                .attr("x", this.width - this.width/5)
+                .attr("y", i => 300 + i*(size+15)) 
                 .attr("width", size)
                 .attr("height", size)
                 .style("fill", d => colorschemes[dvar](d));
@@ -89,7 +89,7 @@ class Piechart {
                 .append("text")
                 .attr('class','pielabel')
                 .attr("x", this.width - 100 + size*1.2)
-                .attr("y", i => 300 + i*(size+5) + (size/2)) 
+                .attr("y", i => 300 + i*(size+15) + (size/2)) 
                 .style("fill", "black")
                 .text(d => categories[d])
                 .attr("text-anchor", "left")

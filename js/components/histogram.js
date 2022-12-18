@@ -3,11 +3,12 @@ class Histogram {
         top: 50, right: 10, bottom: 40, left: 40
     }
 
-    constructor(svg, padding, width = 300, height = 300) {
+    constructor(svg, padding, title, width = 300, height = 300) {
         this.svg = svg;
         this.width = width;
         this.height = height;
         this.padding = padding;
+        this.title = title;
     }
 
     initialize() {
@@ -25,6 +26,12 @@ class Histogram {
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
         this.container.attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+
+        this.svg.append("text")
+        .attr("x", this.width/2 + this.width/6 )
+        .attr("y", this.height / 8)
+        .style("text-anchor", "middle")
+        .text(this.title);
     }
 
     update(data, xVar) {

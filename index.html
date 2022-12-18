@@ -26,10 +26,19 @@
 </head>
 <body>
     <h1><a href="#" onclick="window.location.reload(true);">PALMER<img id="speciesimg" src="./imgs/species.png">PENGUINS</a></h1>
+    <h3 style="padding-top:1%; text-align: center; text-decoration: underline;">About</h3>
+    <div class="aboutContainer">
+        <h3 style="padding-bottom: 1%;">What:</h3>
+        <p>An information visualization and machine learning focused project, offering multiple dynamic views to explore the <a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank">palmerpenguins</a> dataset, while providing penguin species prediction capabilities using various classification models. The front-end uses JavaScript visualization library d3.JS, along with Ajax to fetch data from a Flask server running integrated scikit-learn models.</p>
+        <h3 style="padding-bottom: 1%;">Why:</h3>
+        <p>The goal of this project was originally to apply information visualization techniques, creating an intuitive interface for users to explore the data, while improving skills in d3.JS and overall web development. Subsequently, classification and model evaluation sections were added, as they seemed appropriate features to implement due to the nature of the data, allowing also to include server development. Thank you for stopping by :) </p>
+    </div>
+    <h1 class="separator"></h1> 
+    <h3 style="padding-top:1%; text-align: center; text-decoration: underline;">Overall Distribution and Island Filtering</h3>
     <div id="piecharts" class="text-center">
         <h2>Archipelago Overview</h2>
-        <svg id="speciespiechart"></svg>
-        <svg id="sexpiechart"></svg>
+        <svg class="piechart" id="speciespiechart"></svg>
+        <svg class="piechart" id="sexpiechart"></svg>
     </div>
    <div class="overviewbt">
        <div class="container islandselectmenu">
@@ -62,8 +71,8 @@
       </div>
     </div>
     <h1 class="separator"></h1>
-    <main class="container pb-3"></main>
-    <div class="row pt-2">
+    <h3 style="padding-top:1%; text-align: center;">Sparisity and Distribution Analysis</h3>
+    <div style="margin:auto" class="row pt-2">
         <div class="col-4 text-right pe-2"><strong>X-AXIS:</strong></div>
         <div class="col-8">
             <div class="form-check form-check-inline">
@@ -85,7 +94,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div style="margin:auto" class="row">
         <div class="col-4 text-right pe-2"><strong>Y-AXIS:</strong></div>
         <div class="col-8">
             <div class="form-check form-check-inline">
@@ -107,7 +116,7 @@
             </div>
         </div>
     </div>
-    <div class="text-center">
+    <div style="padding-top: 2%;" class="text-center">
         <svg id="scatterplot"></svg>
         <div class="tooltip bs-tooltip-top show" id="sc-tooltip" role="tooltip">
             <div class="tooltip-arrow"></div>
@@ -139,6 +148,7 @@
     </div>
     </main>
     <h1 class="separator"></h1>
+    <h3 style="padding-top:1%; text-align: center;">Numeric Variable Histograms and Statistics</h3>
     <div class="histcontainer">
         <div class="text-center">
             <svg class="qh" id="quantitativehistogram1"></svg>

@@ -23,6 +23,12 @@ class Scatterplot {
         this.yAxisLabel = this.svg.append("g");
         this.tooltip = d3.select(this.tooltip);
 
+        this.svg.append("text")
+        .attr("x", this.width/2 + this.width/6 )
+        .attr("y", this.height / 8)
+        .style("text-anchor", "middle")
+        .text("Numeric Variables Scatterplot w/ Brush");
+
         this.xScale = d3.scaleLinear();
         this.yScale = d3.scaleLinear();
         this.zScale = d3.scaleOrdinal().range(d3.schemeCategory10)
@@ -125,7 +131,7 @@ class Scatterplot {
             .enter()
             .append("rect")
                 .attr("x", this.width + 55)
-                .attr("y", i => 100 + i*(size+5)) 
+                .attr("y", i => 250 + i*(size+5)) 
                 .attr("width", size)
                 .attr("height", size)
                 .style("fill", d => colorschemes['species'](d));
@@ -135,7 +141,7 @@ class Scatterplot {
             .enter()
             .append("text")
                 .attr("x", this.width + 55 + size*1.2)
-                .attr("y", i => 100 + i*(size+5) + (size/2)) 
+                .attr("y", i => 250 + i*(size+5) + (size/2)) 
                 .style("fill", "black")
                 .text(d => categories[d])
                 .attr("text-anchor", "left")
