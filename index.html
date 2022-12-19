@@ -28,10 +28,14 @@
     <h1><a href="#" onclick="window.location.reload(true);">PALMER<img id="speciesimg" src="./imgs/species.png">PENGUINS</a></h1>
     <h3 style="padding-top:1%; text-align: center; text-decoration: underline;">About</h3>
     <div class="aboutContainer">
-        <h3 style="padding-bottom: 1%;">What:</h3>
-        <p>An information visualization and machine learning focused project, offering multiple dynamic views to explore the <a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank">palmerpenguins</a> dataset, while providing penguin species prediction capabilities using various classification models. The front-end uses JavaScript visualization library d3.JS, along with Ajax to fetch data from a Flask server running integrated scikit-learn models.</p>
-        <h3 style="padding-bottom: 1%;">Why:</h3>
-        <p>The goal of this project was originally to apply information visualization techniques, creating an intuitive interface for users to explore the data, while improving skills in d3.JS and overall web development. Subsequently, classification and model evaluation sections were added, as they seemed appropriate features to implement due to the nature of the data, allowing also to include server development. Thank you for stopping by :) </p>
+        <div class="wtext abouttext">
+            <h3 style="padding-bottom: 1%;">What:</h3>
+            <p>An information visualization and machine learning focused project, offering multiple dynamic views to explore the <a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank">palmerpenguins</a> dataset, while providing penguin species prediction capabilities using various classification models. The front-end uses JavaScript visualization library d3.JS, along with Ajax to fetch data from a Flask server running integrated scikit-learn models.</p>
+        </div>
+        <div class="ytext abouttext">    
+            <h3 style="padding-bottom: 1%;">Why:</h3>
+            <p>The goal of this project was originally to apply information visualization techniques, creating an intuitive interface for users to explore the data, while improving skills in d3.JS and overall web development. Subsequently, classification and model evaluation sections were added, as they seemed appropriate features to implement due to the nature of the data, allowing also to include server development. Thank you for stopping by :) </p>
+        </div>    
     </div>
     <h1 class="separator"></h1> 
     <h3 style="padding-top:1%; text-align: center; text-decoration: underline;">Overall Distribution and Island Filtering</h3>
@@ -182,6 +186,7 @@
               <select class="custom-select model-rng" required>
                   <option value="GNB">Gaussian Naive Bayes</option>
                   <option value="MNB">Multinomial Naive Bayes</option>
+                  <option value="BNB">Bernoulli Naive Bayes</option>
                 </select>
             </div>
         </div>

@@ -187,7 +187,11 @@ h6 {
     transition: transform .8s; 
 }
 
-.aboutContainer p {
+.abouttext {
+    transition: transform .8s; 
+}
+
+.abouttext p {
     margin-top: 10px;
     font-size: large;
     text-align: justify;
@@ -198,16 +202,16 @@ h6 {
     animation: fadein 1.5s;
 }
 
-.aboutContainer a {
+.abouttext a {
     color: #47a2d6;
 }
 
-.aboutContainer a:hover {
+.abouttext a:hover {
     color: #ff547f;
     cursor: pointer;
 }
 
-.aboutContainer:hover {
+.abouttext:hover {
     transform: scale(1.05);
 }
 

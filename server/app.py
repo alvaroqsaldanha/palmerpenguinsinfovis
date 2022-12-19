@@ -29,6 +29,9 @@ models["GNB"] = clf
 clf = MultinomialNB()
 clf.fit(trnX, trnY)
 models["MNB"] = clf
+clf = BernoulliNB()
+clf.fit(trnX, trnY)
+models["BNB"] = clf
 
 def validate_json(data):
   new_feature = []
