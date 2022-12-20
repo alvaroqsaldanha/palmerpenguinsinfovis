@@ -1,37 +1,39 @@
-from wsgiref.handlers import CGIHandler
 from flask import Flask, request, jsonify
-from pandas import DataFrame, read_csv, unique
+from pandas import DataFrame, read_csv, unique, concat
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 from flask_cors import CORS
 import random
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
+models = {}
 
 filename = 'data/penguins_prep_ml.csv'
 data = read_csv(filename, na_values='?')
 target = 'species'
+
 pg_fields = list(data.columns)
 pg_fields.remove(target)
-models = {}
 
-y: np.ndarray = data.pop(target).values
-X: np.ndarray = data.values
-trnX, tstX, trnY, tstY = train_test_split(X, y, train_size=0.7, stratify=y)
-labels: np.ndarray = unique(y)
+trnY: np.ndarray = data.pop(target).values
+trnX: np.ndarray = data.values
+#trnX, tstX, trnY, tstY = train_test_split(X, y, train_size=0.7, stratify=y)
+labels: np.ndarray = unique(trnY)
 labels.sort()
 
-clf = GaussianNB()
-clf.fit(trnX, trnY)
-models["GNB"] = clf
-clf = MultinomialNB()
-clf.fit(trnX, trnY)
-models["MNB"] = clf
-clf = BernoulliNB()
-clf.fit(trnX, trnY)
-models["BNB"] = clf
+def setupModels():
+  clf = GaussianNB()
+  clf.fit(trnX, trnY)
+  models["GNB"] = clf
+  clf = MultinomialNB()
+  clf.fit(trnX, trnY)
+  models["MNB"] = clf
+  clf = BernoulliNB()
+  clf.fit(trnX, trnY)
+  models["BNB"] = clf 
 
 def validate_json(data):
   new_feature = []
@@ -100,4 +102,6 @@ def random_penguins(amount):
   return features,table_entries
 
 if __name__ == '__main__':
+   setupModels()
    app.run()
+
