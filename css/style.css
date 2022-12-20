@@ -97,11 +97,11 @@ figcaption {
     border-radius: 48%;
 }
 
-.piechart {
+.zoomHover {
     transition: transform .8s;
   }
 
-.piechart:hover {
+.zoomHover:hover {
     transform: scale(1.05);
   }
 
