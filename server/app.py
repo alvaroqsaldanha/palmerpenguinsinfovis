@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from pandas import DataFrame, read_csv, unique, concat
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
-from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 from flask_cors import CORS
 import random
@@ -34,6 +34,9 @@ def setupModels():
   clf = BernoulliNB()
   clf.fit(trnX, trnY)
   models["BNB"] = clf 
+  tree = DecisionTreeClassifier(max_depth=5, criterion="entropy", min_impurity_decrease=0)
+  tree.fit(trnX, trnY)
+  models["DT"] = clf 
 
 def validate_json(data):
   new_feature = []
