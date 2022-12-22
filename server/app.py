@@ -24,19 +24,18 @@ trnX: np.ndarray = data.values
 labels: np.ndarray = unique(trnY)
 labels.sort()
 
-def setupModels():
-  clf = GaussianNB()
-  clf.fit(trnX, trnY)
-  models["GNB"] = clf
-  clf = MultinomialNB()
-  clf.fit(trnX, trnY)
-  models["MNB"] = clf
-  clf = BernoulliNB()
-  clf.fit(trnX, trnY)
-  models["BNB"] = clf 
-  tree = DecisionTreeClassifier(max_depth=5, criterion="entropy", min_impurity_decrease=0)
-  tree.fit(trnX, trnY)
-  models["DT"] = clf 
+clf = GaussianNB()
+clf.fit(trnX, trnY)
+models["GNB"] = clf
+clf = MultinomialNB()
+clf.fit(trnX, trnY)
+models["MNB"] = clf
+clf = BernoulliNB()
+clf.fit(trnX, trnY)
+models["BNB"] = clf 
+tree = DecisionTreeClassifier(max_depth=5, criterion="entropy", min_impurity_decrease=0)
+tree.fit(trnX, trnY)
+models["DT"] = clf 
 
 def validate_json(data):
   new_feature = []
@@ -49,7 +48,7 @@ def validate_json(data):
 @app.route('/penguingen', methods=['POST'])
 def penguingen():
   try:
-    data = request.get_json()
+    data = request.json
     model = data["model"]
     if model not in models:
       raise ValueError("Invalid Model.")
@@ -62,7 +61,7 @@ def penguingen():
 @app.route('/rndpenguingen', methods=['POST'])
 def rndpenguingen():
   try:
-    data = request.get_json()
+    data = request.json
     amount = data["amount"]
     model = data["model"]
     if model not in models:
@@ -105,6 +104,5 @@ def random_penguins(amount):
   return features,table_entries
 
 if __name__ == '__main__':
-   setupModels()
    app.run()
 
