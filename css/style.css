@@ -280,3 +280,9 @@ h6 {
     padding-bottom: 5%;
 }
 
+#eval {
+    width: 60%;
+    margin: auto;
+    display: block;
+}
+

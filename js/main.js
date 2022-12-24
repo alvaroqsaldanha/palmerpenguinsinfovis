@@ -72,6 +72,30 @@ function updateRangeInput(obj, value) {
     d3.select(obj).text(value);
 }
 
+function evaluateModel() {
+    scaling = d3.select(".scl-rng").node().value;
+    balancing = d3.select(".blc-rng").node().value;
+    model = d3.select(".modeleval-rng").node().value;
+    var evalDiv = document.getElementById("eval");
+    evalDiv.innerHTML = "";
+    var elem = document.createElement("img");
+    elem.setAttribute("width", "100%");
+    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/BernoulliNB_nb_best.png';
+    evalDiv.appendChild(elem);
+    var elem = document.createElement("img");
+    elem.setAttribute("width", "100%");
+    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/GaussianNB_nb_best.png';
+    evalDiv.appendChild(elem);
+    var elem = document.createElement("img");
+    elem.setAttribute("width", "100%");
+    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/MultinomialNB_nb_best.png';
+    evalDiv.appendChild(elem);
+    var elem = document.createElement("img");
+    elem.setAttribute("width", "100%");
+    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/nb_study.png';
+    evalDiv.appendChild(elem);
+}
+
 function addToTable(feature,y,model,isl,sx) {
     var tableRef = document.getElementById('pengtable').getElementsByTagName('tbody')[0];
     var numRows = tableRef.rows.length;

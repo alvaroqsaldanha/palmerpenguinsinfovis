@@ -313,18 +313,14 @@
     <h3 style="padding-top:1%; text-align: center;">Model Evaluation</h3>
     <p style="padding-top:1%; text-align: center;">In development</p>
     <div class="zoomHover" style="margin:auto; width:65%; text-align: justify; font-size: large;">
-        <p>The goal of this section is to present model evaluation statistics, allowing for model comparison and parameter tuning. Multiple dataset scaling and balacing options are available and the current training and test dataset split ratio is 75:25. The code for the evaluation is present on the <a style="color:#47a2d6;" href="https://github.com/alvaroqsaldanha/palmerpenguinsinfovis/tree/main/modelevaluation" target="_blank">modelevaluation</a> folder on github.</p>
+        <p>The goal of this section is to present model evaluation statistics, allowing for model comparison and parameter tuning. Multiple dataset scaling and balacing options are available and the current training and test dataset split ratio is 75:25.</p>
     </div>
-        <form class="modelform">
+        <form class="modelform"">
             <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="validationDefault01">Model</label>
                   <select class="custom-select modeleval-rng" required>
-                      <option value="nb">Naive Bayes</option>
-                      <option value="dt">Decision Trees</option>
-                      <option value="rf">Random Forests</option>
-                      <option value="knn">KNN</option>
-                      <option value="nn">Neural Networks</option>
+                      <option value="NB">Naive Bayes</option>
                     </select>
                 </div>
             </div>
@@ -332,20 +328,22 @@
               <div class="col-md-6 mb-3">
                 <label for="validationDefault01">Island</label>
                 <select class="custom-select scl-rng" required>
-                    <option value="no">No Scaling</option>
-                    <option value="z-score">Z-Score</option>
-                    <option value="minmax">Minmax</option>
+                    <option value="Unscaled">No Scaling</option>
+                    <option value="Zscore">Z-Score</option>
+                    <option value="Minmax">Minmax</option>
                   </select>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="validationDefault02">Year</label>
                 <select class="custom-select blc-rng" required>
-                    <option value="no">No Balancing</option>
-                    <option value="over">Oversampling</option>
-                    <option value="smote">SMOTE</option>
+                    <option value="Unbalanced">No Balancing</option>
+                    <option value="Oversampling">Oversampling</option>
+                    <option value="Smote">SMOTE</option>
                   </select>
               </div>
-            <button class="subbtn" style="margin-top: 1%; margin-bottom: 5%;" class="btn btn-primary" type="button" onclick="">Evaluate</button>
+            <button class="subbtn" style="margin-top: 1%; margin-bottom: 5%;" class="btn btn-primary" type="button" onclick="evaluateModel()">Evaluate</button>
         </form>
+    </div>
+    <div id="eval"></div>
     </body>
 </html>
