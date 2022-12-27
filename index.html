@@ -188,6 +188,7 @@
                   <option value="MNB">Multinomial Naive Bayes</option>
                   <option value="BNB">Bernoulli Naive Bayes</option>
                   <option value="DT">Decision Tree w/ Entropy criteria and Depth = 5</option>
+                  <option value="KNN">KNN w/ 3 neighbours and Manhattan distance</option>
                 </select>
             </div>
         </div>
@@ -315,12 +316,13 @@
     <div class="zoomHover" style="margin:auto; width:65%; text-align: justify; font-size: large;">
         <p>The goal of this section is to present model evaluation statistics, allowing for model comparison and parameter tuning. Multiple dataset scaling and balacing options are available and the current training and test dataset split ratio is 75:25. The results presented are pre-computed, as some models can take a long time to fit and test the data.</p>
     </div>
-        <form class="modelform"">
+        <form class="modelform">
             <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="validationDefault01">Model</label>
                   <select class="custom-select modeleval-rng" required>
                       <option value="NB">Naive Bayes</option>
+                      <option value="KNN">KNN</option>
                     </select>
                 </div>
             </div>

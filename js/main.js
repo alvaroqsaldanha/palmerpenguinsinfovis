@@ -72,28 +72,20 @@ function updateRangeInput(obj, value) {
     d3.select(obj).text(value);
 }
 
+model_params = {"NB":["BernoulliNB_nb_best","GaussianNB_nb_best","MultinomialNB_nb_best","nb_study"],"KNN":['study','knn_best','over_knn_best']}
+
 function evaluateModel() {
     scaling = d3.select(".scl-rng").node().value;
     balancing = d3.select(".blc-rng").node().value;
     model = d3.select(".modeleval-rng").node().value;
     var evalDiv = document.getElementById("eval");
     evalDiv.innerHTML = "";
-    var elem = document.createElement("img");
-    elem.setAttribute("width", "100%");
-    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/BernoulliNB_nb_best.png';
-    evalDiv.appendChild(elem);
-    var elem = document.createElement("img");
-    elem.setAttribute("width", "100%");
-    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/GaussianNB_nb_best.png';
-    evalDiv.appendChild(elem);
-    var elem = document.createElement("img");
-    elem.setAttribute("width", "100%");
-    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/MultinomialNB_nb_best.png';
-    evalDiv.appendChild(elem);
-    var elem = document.createElement("img");
-    elem.setAttribute("width", "100%");
-    elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/nb_study.png';
-    evalDiv.appendChild(elem);
+    for (var i = 0; i < model_params[model].length; i++) {
+        var elem = document.createElement("img");
+        elem.setAttribute("width", "100%");
+        elem.src = "./modelevaluation/images/"+model+'/'+scaling+'/'+balancing+'/'+model_params[model][i]+'.png';
+        evalDiv.appendChild(elem);        
+    }
 }
 
 function addToTable(feature,y,model,isl,sx) {

@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-from pandas import DataFrame, read_csv, unique, concat
-from sklearn.model_selection import train_test_split
+from pandas import DataFrame, read_csv, unique
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 from flask_cors import CORS
 import random
@@ -36,6 +36,9 @@ models["BNB"] = clf
 tree = DecisionTreeClassifier(max_depth=5, criterion="entropy", min_impurity_decrease=0)
 tree.fit(trnX, trnY)
 models["DT"] = clf 
+knn = KNeighborsClassifier(n_neighbors=3, metric="manhattan")
+clf.fit(trnX, trnY)
+models["KNN"] = clf
 
 def validate_json(data):
   new_feature = []
