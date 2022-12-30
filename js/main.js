@@ -72,7 +72,7 @@ function updateRangeInput(obj, value) {
     d3.select(obj).text(value);
 }
 
-model_params = {"NB":["BernoulliNB_nb_best","GaussianNB_nb_best","MultinomialNB_nb_best","nb_study"],"KNN":['study','knn_best','over_knn_best']}
+model_params = {"NB":["BernoulliNB_nb_best","GaussianNB_nb_best","MultinomialNB_nb_best","nb_study"],"KNN":['study','knn_best','over_knn_best'],"NN":["mlp_study","mlp_best","over_nn_best","loss_best"]}
 
 function evaluateModel() {
     scaling = d3.select(".scl-rng").node().value;

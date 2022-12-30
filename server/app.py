@@ -3,6 +3,7 @@ from pandas import DataFrame, read_csv, unique
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 import numpy as np
 from flask_cors import CORS
 import random
@@ -39,6 +40,9 @@ models["DT"] = clf
 knn = KNeighborsClassifier(n_neighbors=3, metric="manhattan")
 clf.fit(trnX, trnY)
 models["KNN"] = clf
+mlp = MLPClassifier(activation='logistic', solver='sgd', learning_rate=0.1, learning_rate_init='constant', max_iter=500, verbose=False)
+mlp.fit(trnX, trnY)
+models["NN"] = clf
 
 def validate_json(data):
   new_feature = []
