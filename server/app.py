@@ -40,7 +40,7 @@ models["DT"] = clf
 knn = KNeighborsClassifier(n_neighbors=3, metric="manhattan")
 clf.fit(trnX, trnY)
 models["KNN"] = clf
-mlp = MLPClassifier(activation='logistic', solver='sgd', learning_rate=0.1, learning_rate_init='constant', max_iter=500, verbose=False)
+mlp = MLPClassifier(activation='logistic', solver='sgd', learning_rate='constant', learning_rate_init=0.1, max_iter=500, verbose=False)
 mlp.fit(trnX, trnY)
 models["NN"] = clf
 
